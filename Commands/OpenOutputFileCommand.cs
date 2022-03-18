@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BSK1.Services;
 
 namespace BSK1.Commands
 {
@@ -11,7 +12,7 @@ namespace BSK1.Commands
     {
         public override void Execute(object? parameter)
         {
-            Process.Start(@"notepad.exe", @"C:\TEST_FILE.txt");
+            Process.Start(@"notepad.exe", FileService.outputFilePath);
         }
     }
 }

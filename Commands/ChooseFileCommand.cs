@@ -32,7 +32,9 @@ namespace BSK1.Commands
 
             if (openFileDialog.ShowDialog() == true)
             {
-                _viewModel.FileName = openFileDialog.FileName;
+                _viewModel.FilePath = openFileDialog.FileName;
+
+                _viewModel.IsInputFile = true;
             }
         }
     }

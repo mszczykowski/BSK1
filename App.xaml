@@ -15,5 +15,7 @@
             <Setter Property="Padding" Value="0 20"/>
             <Setter Property="FontSize" Value="28"/>
         </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Application.Resources>
 </Application>

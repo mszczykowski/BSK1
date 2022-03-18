@@ -9,7 +9,7 @@ using BSK1.Services;
 
 namespace BSK1.ViewModels
 {
-    internal class ModuleBaseViewModel : ViewModelBase
+    internal abstract class ModuleBaseViewModel : ViewModelBase
     {
         private string _inputText;
         public string InputText
@@ -30,17 +30,6 @@ namespace BSK1.ViewModels
             {
                 _outputText = value;
                 OnPropertyChanged(nameof(OutputText));
-            }
-        }
-
-        private string _fileName;
-        public string FileName
-        {
-            get => _fileName;
-            set
-            {
-                _fileName = value;
-                OnPropertyChanged(nameof(FileName));
             }
         }
 
@@ -89,6 +78,8 @@ namespace BSK1.ViewModels
 
         public ICommand OpenOutputFileCommand { get; }
 
+        public ICommand CopyOutputToInputCommand { get; }
+
         public ModuleBaseViewModel(NavigationService mainMenuNavigationService)
         {
             BackCommand = new NavigateCommand(mainMenuNavigationService);
@@ -96,6 +87,8 @@ namespace BSK1.ViewModels
             ChooseFileCommand = new ChooseFileCommand(this);
 
             OpenOutputFileCommand = new OpenOutputFileCommand();
+
+            CopyOutputToInputCommand = new CopyOutputToInputCommand(this);
         }
     }
 }

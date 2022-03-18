@@ -19,12 +19,12 @@ namespace BSK1.Algorithms
 
         public string Decrypt(string input)
         {
-            throw new NotImplementedException();
+            return input + "chuj" + _viewModel.N;
         }
 
         public string Encrypt(string input)
         {
-            throw new NotImplementedException();
+            return input + "dupa" + _viewModel.N;
         }
     }
 }

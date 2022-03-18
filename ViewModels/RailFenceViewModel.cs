@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BSK1.Commands;
+using BSK1.Algorithms;
 
 namespace BSK1.ViewModels
 {
@@ -24,8 +25,10 @@ namespace BSK1.ViewModels
 
         public RailFenceViewModel(NavigationService mainMenuNavigationService) : base(mainMenuNavigationService)
         {
-            //EncryptCommand = new EncryptCommand(this);
-            //DecryptCommand = new DecryptCommand(this);
+            var railFenceAlgorithm = new RailFenceAlgorithm(this);
+
+            EncryptCommand = new EncryptCommand(railFenceAlgorithm, this);
+            DecryptCommand = new DecryptCommand(railFenceAlgorithm, this);
         }
     }
 }
