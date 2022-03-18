@@ -11,7 +11,7 @@ namespace BSK1.Commands
     {
         public override void Execute(object? parameter)
         {
-            if (MessageBox.Show("Close Application?", "Exit", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Zamknąć program?", "Zakończ", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 System.Windows.Application.Current.Shutdown();
             }

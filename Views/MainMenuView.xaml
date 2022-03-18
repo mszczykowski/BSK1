@@ -22,16 +22,16 @@
             <ColumnDefinition Width="auto" SharedSizeGroup="column"/>
         </Grid.ColumnDefinitions>
         
-        <TextBlock Text="Main menu" FontSize="50" Grid.ColumnSpan="2" TextAlignment="Center" Margin="0 0 0 20"/>
+        <TextBlock Text="Menu główne" FontSize="40" Grid.ColumnSpan="2" TextAlignment="Center" Margin="0 0 0 60"/>
 
-        <Button Grid.Row="1" Grid.Column="0" Content="test" Padding="5" Margin="5"/>
-        <Button Grid.Row="1" Grid.Column="1" Content="test" Padding="5" Margin="5"/>
-        <Button Grid.Row="2" Grid.Column="0" Content="test" Padding="5" Margin="5"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="test" Padding="5" Margin="5"/>
-        <Button Grid.Row="3" Grid.Column="0" Content="test" Padding="5" Margin="5"/>
-        <Button Grid.Row="3" Grid.Column="1" Content="test" Padding="5" Margin="5"/>
+        <Button Grid.Row="1" Grid.Column="0" Content="Rail fence" Command="{Binding NavigateToRailFenceCommand}" Padding="5" Margin="5"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Przestawienie macierzowe A" Padding="5" Margin="5"/>
+        <Button Grid.Row="2" Grid.Column="0" Content="Przestawienie macierzowe B" Padding="5" Margin="5"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="Przestawienie macierzowe C" Padding="5" Margin="5"/>
+        <Button Grid.Row="3" Grid.Column="0" Content="Szyf Cezara" Padding="5" Margin="5"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="Szyfrowanie Vigenere'a" Padding="5" Margin="5"/>
 
-        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Exit" Command="{Binding ExitCommand}" Padding="5" Margin="5"/>
+        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Wyjście" Command="{Binding ExitCommand}" Padding="5" Margin="5"/>
 
     </Grid>
 </UserControl>

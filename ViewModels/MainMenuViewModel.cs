@@ -1,4 +1,5 @@
 ﻿using BSK1.Commands;
+using BSK1.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,13 @@ namespace BSK1.ViewModels
     {
         public ICommand ExitCommand { get; }
 
-        public MainMenuViewModel()
+        public ICommand NavigateToRailFenceCommand { get; }
+
+        public MainMenuViewModel(NavigationService railFenceViewNavigationService)
         {
+            NavigateToRailFenceCommand = new NavigateCommand(railFenceViewNavigationService);
+
+
             ExitCommand = new ExitCommand();
         }
     }

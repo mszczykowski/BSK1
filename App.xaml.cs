@@ -1,4 +1,5 @@
-﻿using BSK1.Stores;
+﻿using BSK1.Services;
+using BSK1.Stores;
 using BSK1.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,12 @@ namespace BSK1
 
         private MainMenuViewModel CreateMainMenuViewModel()
         {
-            return new MainMenuViewModel();
+            return new MainMenuViewModel(new NavigationService(_navigationStore, CreateRailFenceViewModel));
+        }
+
+        private RailFenceViewModel CreateRailFenceViewModel()
+        {
+            return new RailFenceViewModel(new NavigationService(_navigationStore, CreateMainMenuViewModel));
         }
     }
 }

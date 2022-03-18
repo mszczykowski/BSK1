@@ -8,13 +8,17 @@
         xmlns:viewModels="clr-namespace:BSK1.ViewModels"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="480" Width="820">
+    <Grid Margin="15 10">
 
         <Grid.Resources>
 
             <DataTemplate DataType="{x:Type viewModels:MainMenuViewModel}">
                 <views:MainMenuView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:RailFenceViewModel}">
+                <views:RailFenceView/>
             </DataTemplate>
 
         </Grid.Resources>
