@@ -13,7 +13,7 @@
 
         <Style TargetType="TextBlock" x:Key="Header">
             <Setter Property="Padding" Value="0 20"/>
-            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontSize" Value="20"/>
         </Style>
 
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
