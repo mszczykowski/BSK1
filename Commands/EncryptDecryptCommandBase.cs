@@ -13,17 +13,14 @@ namespace BSK1.Commands
 {
     internal abstract class EncryptDecryptCommandBase : CommandBase
     {
-        protected IAlgorithm _algorithm;
-
-        protected ModuleBaseViewModel _viewModel;
+        protected AlgorithmsFormViewModel _viewModel;
 
         protected FileService fileService;
 
         protected string input;
 
-        public EncryptDecryptCommandBase(IAlgorithm algorithm, ModuleBaseViewModel viewModel)
+        public EncryptDecryptCommandBase(AlgorithmsFormViewModel viewModel)
         {
-            _algorithm = algorithm;
             _viewModel = viewModel;
 
             _viewModel.PropertyChanged += OnViewModelPropertyChanged;

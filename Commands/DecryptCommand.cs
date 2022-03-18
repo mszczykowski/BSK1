@@ -11,7 +11,7 @@ namespace BSK1.Commands
 {
     internal class DecryptCommand : EncryptDecryptCommandBase
     {
-        public DecryptCommand(IAlgorithm algorithm, ModuleBaseViewModel viewModel) : base(algorithm, viewModel)
+        public DecryptCommand(AlgorithmsFormViewModel viewModel) : base(viewModel)
         {
         }
 
@@ -19,7 +19,7 @@ namespace BSK1.Commands
         {
             base.Execute(parameter);
 
-            SetOutput(_algorithm.Decrypt(input));
+            SetOutput(_viewModel.AlgorithmViewModel.Algorithm.Decrypt(input));
         }
     }
 }

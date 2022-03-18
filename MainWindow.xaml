@@ -13,12 +13,8 @@
 
         <Grid.Resources>
 
-            <DataTemplate DataType="{x:Type viewModels:MainMenuViewModel}">
-                <views:MainMenuView/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewModels:RailFenceViewModel}">
-                <views:RailFenceView/>
+            <DataTemplate DataType="{x:Type viewModels:AlgorithmsFormViewModel}">
+                <views:AlgorithmsFormView/>
             </DataTemplate>
 
         </Grid.Resources>

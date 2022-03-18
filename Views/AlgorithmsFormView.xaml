@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BSK1.Views.RailFenceView"
+﻿<UserControl x:Class="BSK1.Views.AlgorithmsFormView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,9 +20,9 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Rail fence" Style="{StaticResource Header}" Grid.Column="0"/>
+            <TextBlock Text="Algorytmy szyfrujące" Style="{StaticResource Header}" Grid.Column="0"/>
 
-            <Button Content="Powrót" VerticalAlignment="Center" Grid.Column="3" Command="{Binding BackCommand}" Margin="5 0"/>
+            <Button Content="Wyjście" VerticalAlignment="Center" Grid.Column="3" Command="{Binding ExitCommand}" Margin="5 0"/>
         </Grid>
 
         <Grid Grid.Row="1">
@@ -64,13 +64,26 @@
                     <Button Grid.Row="1" Grid.Column="2" Content="Wybierz plik" VerticalAlignment="Center"
                             Command="{Binding ChooseFileCommand}"/>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2">
-                        <TextBlock Text="N:" VerticalAlignment="Center" Margin="0 0 40 0"/>
-                        <TextBox Grid.Column="1" Grid.Row="2" Width="50" Margin="0 10" HorizontalAlignment="Left"
-                             Text="{Binding N, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Row="2" Text="{Binding ParametersLabel}" VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="1" Grid.Row="2" Width="50" Margin="0 10" HorizontalAlignment="Left"
+                             Text="{Binding N, UpdateSourceTrigger=PropertyChanged}" 
+                             Visibility="{Binding IsNVisible, Converter={StaticResource BoolToVis}}"/>
+
+                    <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 10"
+                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" 
+                             Visibility="{Binding IsKeyVisible, Converter={StaticResource BoolToVis}}"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0 10"
+                                Visibility="{Binding IsABModVisible, Converter={StaticResource BoolToVis}}">
+                        <TextBox Width="50" VerticalAlignment="Center" Margin="5 0" 
+                                 Text="{Binding A, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Width="50" VerticalAlignment="Center" Margin="5 0"
+                                 Text="{Binding B, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Width="50" VerticalAlignment="Center" Margin="5 0"
+                                 Text="{Binding Mod, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                    
-                    
+
                 </Grid>
             </GroupBox>
 
@@ -87,7 +100,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Text="Algorytm:" Margin="0 0 10 0" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="0" Grid.Column="2" Margin="0 10"/>
+                    <ComboBox Grid.Row="0" Grid.Column="2" Margin="0 10" SelectedItem="{Binding AlgorithmViewModel}"
+                              ItemsSource="{Binding Path=AlgorithmsList}"  SelectedIndex="0" DisplayMemberPath="Name"/>
 
 
                     <TextBlock Grid.Row="1" Text="Źródło:" Margin="0 0 10 0" VerticalAlignment="Center"/>

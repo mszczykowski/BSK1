@@ -11,9 +11,9 @@ namespace BSK1.Commands
 {
     internal class CopyOutputToInputCommand : CommandBase
     {
-        private ModuleBaseViewModel _moduleBaseViewModel;
+        private AlgorithmsFormViewModel _moduleBaseViewModel;
 
-        public CopyOutputToInputCommand(ModuleBaseViewModel moduleBaseViewModel)
+        public CopyOutputToInputCommand(AlgorithmsFormViewModel moduleBaseViewModel)
         {
             _moduleBaseViewModel = moduleBaseViewModel;
 

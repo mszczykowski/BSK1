@@ -25,7 +25,7 @@ namespace BSK1
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = CreateMainMenuViewModel();
+            _navigationStore.CurrentViewModel = CreateAlgorithmsFormViewModel();
 
             MainWindow = new MainWindow()
             {
@@ -36,14 +36,9 @@ namespace BSK1
             base.OnStartup(e);
         }
 
-        private MainMenuViewModel CreateMainMenuViewModel()
+        private AlgorithmsFormViewModel CreateAlgorithmsFormViewModel()
         {
-            return new MainMenuViewModel(new NavigationService(_navigationStore, CreateRailFenceViewModel));
-        }
-
-        private RailFenceViewModel CreateRailFenceViewModel()
-        {
-            return new RailFenceViewModel(new NavigationService(_navigationStore, CreateMainMenuViewModel));
+            return new AlgorithmsFormViewModel();
         }
     }
 }

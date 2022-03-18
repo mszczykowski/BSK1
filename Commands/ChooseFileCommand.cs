@@ -10,9 +10,9 @@ namespace BSK1.Commands
 {
     internal class ChooseFileCommand : CommandBase
     {
-        private ModuleBaseViewModel _viewModel;
+        private AlgorithmsFormViewModel _viewModel;
 
-        public ChooseFileCommand(ModuleBaseViewModel viewModel)
+        public ChooseFileCommand(AlgorithmsFormViewModel viewModel)
         {
             _viewModel = viewModel;
         }

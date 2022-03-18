@@ -18,9 +18,9 @@ namespace BSK1.Views
     /// <summary>
     /// Interaction logic for RailFenceView.xaml
     /// </summary>
-    public partial class RailFenceView : UserControl
+    public partial class AlgorithmsFormView : UserControl
     {
-        public RailFenceView()
+        public AlgorithmsFormView()
         {
             InitializeComponent();
         }

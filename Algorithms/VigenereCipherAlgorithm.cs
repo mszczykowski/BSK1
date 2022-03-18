@@ -1,26 +1,26 @@
-﻿using System;
+﻿using BSK1.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BSK1.ViewModels;
 
 namespace BSK1.Algorithms
 {
-    internal class RailFenceAlgorithm : Algorithm
+    internal class VigenereCipherAlgorithm : Algorithm
     {
-        public RailFenceAlgorithm(AlgorithmsFormViewModel viewModel) : base(viewModel)
+        public VigenereCipherAlgorithm(AlgorithmsFormViewModel viewModel) : base(viewModel)
         {
         }
 
         public override string Decrypt(string input)
         {
-            return input + "chuj" + _viewModel.N;
+            throw new NotImplementedException();
         }
 
         public override string Encrypt(string input)
         {
-            return input + "dupa" + _viewModel.N;
+            throw new NotImplementedException();
         }
     }
 }
