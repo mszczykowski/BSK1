@@ -18,7 +18,7 @@ namespace BSK1.Algorithms
             if (_viewModel.Key == null || _viewModel.Key.Length <= 0) // Checking if key is null or empty
                 return "Klucz nie może być pusty.";
 
-            string key = _viewModel.Key; // Key without spaces
+            string key = _viewModel.Key; // Key
             string keyAlphabetical = SortString(key); // Key with alphabetical letters
 
             bool[] wasLetterUsed = new bool[key.Length]; // Array of key letters
@@ -51,7 +51,54 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            throw new NotImplementedException();
+            if (_viewModel.Key == null || _viewModel.Key.Length <= 0) // Checking if key is null or empty
+                return "Klucz nie może być pusty.";
+
+            string inputToCut = input;
+            string key = _viewModel.Key; // Key
+            string keyAlphabetical = SortString(key); // Key with alphabetical letters
+            bool[] wasLetterUsed = new bool[key.Length]; // Array of key letters
+            for (int i = 0; i < wasLetterUsed.Length; i++)
+                wasLetterUsed[i] = false;
+
+            int wordsLength = (int)Math.Ceiling((double)input.Length / (double)key.Length);
+            string[] wordsTableVertical = new string[key.Length];
+
+            
+            foreach (char alphabeticalLetter in keyAlphabetical)
+            {
+                int columnCount = 1;
+                for (int i = 0; i < key.Length; i++)
+                {
+                    if (alphabeticalLetter == key[i] && wasLetterUsed[i] == false)
+                    {
+                        int tempCount = wordsLength;
+                        if (input.Length % key.Length < columnCount)
+                            tempCount -= 1;
+
+                        string encryptedWord = inputToCut.Substring(0, tempCount);
+                        inputToCut = inputToCut.Remove(0, tempCount);
+
+                        wordsTableVertical[i] = encryptedWord;
+                        wasLetterUsed[i] = true;
+                    }
+
+                    columnCount++;
+                }
+            }
+
+            string result = "";
+            for (int i = 0; i < wordsLength; i++)
+            {
+                for (int j = 0; j < key.Length; j++)
+                {
+                    if(wordsTableVertical[j].Length <= i)
+                        break;
+                    result += wordsTableVertical[j][i];
+                }
+            }
+
+            return result;
         }
 
         // Methods
