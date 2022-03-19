@@ -243,7 +243,7 @@ namespace BSK1.ViewModels
                         IsNVisible = true;
                         break;
                     case RequiredForm.Key:
-                        ParametersLabel = "Key:";
+                        ParametersLabel = "Klucz:";
                         IsKeyVisible = true;
                         break;
                 }
