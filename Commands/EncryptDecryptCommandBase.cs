@@ -43,8 +43,11 @@ namespace BSK1.Commands
         public override void Execute(object? parameter)
         {
             ClearOutput();
-            if(_viewModel.IsInputFile) input = fileService.GetStringFromFile(_viewModel.FilePath);
-            else input = _viewModel.InputText;
+            string inputUnnormalised;
+            if(_viewModel.IsInputFile) inputUnnormalised = fileService.GetStringFromFile(_viewModel.FilePath);
+            else inputUnnormalised = _viewModel.InputText;
+
+            input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
         }
 
         protected void SetOutput(string output)
