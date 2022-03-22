@@ -74,15 +74,9 @@
                              Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" 
                              Visibility="{Binding IsKeyVisible, Converter={StaticResource BoolToVis}}"/>
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0 10"
-                                Visibility="{Binding IsABModVisible, Converter={StaticResource BoolToVis}}">
-                        <TextBox Width="50" VerticalAlignment="Center" Margin="5 0" 
-                                 Text="{Binding A, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox Width="50" VerticalAlignment="Center" Margin="5 0"
-                                 Text="{Binding B, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox Width="50" VerticalAlignment="Center" Margin="5 0"
-                                 Text="{Binding Mod, UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
+                    <TextBox Grid.Column="1" Grid.Row="2" Width="50" Margin="0 10" HorizontalAlignment="Left"
+                             Text="{Binding K, UpdateSourceTrigger=PropertyChanged}" 
+                             Visibility="{Binding IsKVisible, Converter={StaticResource BoolToVis}}"/>
 
                 </Grid>
             </GroupBox>

@@ -9,18 +9,46 @@ namespace BSK1.Algorithms
 {
     internal class CaesarCipherAlgorithm : Algorithm
     {
+        private const int SHIFT = 'A';
+        private const int ALPHABET_LENGTH = 26;
         public CaesarCipherAlgorithm(AlgorithmsFormViewModel viewModel) : base(viewModel)
         {
         }
 
-        public override string Decrypt(string input)
-        {
-            throw new NotImplementedException();
-        }
-
         public override string Encrypt(string input)
         {
-            throw new NotImplementedException();
+            int k = _viewModel.K;
+
+            string output = "";
+
+            input.ToList().ForEach(x =>
+            {
+                int a = x - SHIFT;
+
+                int c = (a + k) % ALPHABET_LENGTH;
+
+                output += Convert.ToChar(c + SHIFT);
+            });
+
+            return output;
+        }
+
+        public override string Decrypt(string input)
+        {
+            int k = _viewModel.K;
+
+            string output = "";
+
+            input.ToList().ForEach(x =>
+            {
+                int c = x - SHIFT;
+
+                int a = (c + (ALPHABET_LENGTH - k)) % ALPHABET_LENGTH;
+
+                output += Convert.ToChar(a + SHIFT);
+            });
+
+            return output;
         }
     }
 }

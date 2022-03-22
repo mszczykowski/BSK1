@@ -10,6 +10,6 @@ namespace BSK1.Enums
     {
         N,
         Key,
-        ABMod
+        K
     }
 }

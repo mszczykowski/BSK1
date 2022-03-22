@@ -92,36 +92,14 @@ namespace BSK1.ViewModels
             }
         }
 
-        private int _a;
-        public int A
+        private int _k;
+        public int K
         {
-            get => _a;
+            get => _k;
             set
             {
-                _a = value;
-                OnPropertyChanged(nameof(A));
-            }
-        }
-
-        private int _b;
-        public int B
-        {
-            get => _b;
-            set
-            {
-                _b = value;
-                OnPropertyChanged(nameof(B));
-            }
-        }
-
-        private int _mod;
-        public int Mod
-        {
-            get => _mod;
-            set
-            {
-                _mod = value;
-                OnPropertyChanged(nameof(Mod));
+                _k = value;
+                OnPropertyChanged(nameof(K));
             }
         }
 
@@ -156,14 +134,14 @@ namespace BSK1.ViewModels
                 OnPropertyChanged(nameof(IsKeyVisible));
             }
         }
-        private bool _isABModVisible;
-        public bool IsABModVisible
+        private bool _isKVisible;
+        public bool IsKVisible
         {
-            get => _isABModVisible;
+            get => _isKVisible;
             set
             {
-                _isABModVisible = value;
-                OnPropertyChanged(nameof(IsABModVisible));
+                _isKVisible = value;
+                OnPropertyChanged(nameof(IsKVisible));
             }
         }
 
@@ -221,7 +199,7 @@ namespace BSK1.ViewModels
                 new AlgorithmViewModel("Przestawienie macierzowe A", new TranspositionAAlgorithm(this), RequiredForm.Key),
                 new AlgorithmViewModel("Przestawienie macierzowe B", new TranspositionBAlgorithm(this), RequiredForm.Key),
                 new AlgorithmViewModel("Przestawienie macierzowe C", new TranspositionCAlgorithm(this), RequiredForm.Key),
-                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), RequiredForm.ABMod),
+                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), RequiredForm.K),
                 new AlgorithmViewModel("Szyfrowanie Vigenere'a", new VigenereCipherAlgorithm(this), RequiredForm.Key)
             };
         }
@@ -230,13 +208,13 @@ namespace BSK1.ViewModels
         {
             if(e.PropertyName == nameof(AlgorithmViewModel))
             {
-                IsNVisible = IsKeyVisible = IsABModVisible = false;
+                IsNVisible = IsKeyVisible = IsKVisible = false;
 
                 switch(_algorithm.RequiredForm)
                 {
-                    case RequiredForm.ABMod:
-                        ParametersLabel = "A, B, Mod:";
-                        IsABModVisible = true;
+                    case RequiredForm.K:
+                        ParametersLabel = "K:";
+                        IsKVisible = true;
                         break;
                     case RequiredForm.N:
                         ParametersLabel = "N:";
