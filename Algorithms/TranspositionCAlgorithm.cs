@@ -38,12 +38,6 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            /*string key = _viewModel.Key;
-            int matrixCapacity = GetMatrixCapacity(key);
-
-            int howManyTimesMatrixRepeats = input.Length / matrixCapacity;
-
-            int lastMatrixFilling = input.Length % matrixCapacity;*/
 
             string key = _viewModel.Key;
 
@@ -115,12 +109,6 @@ namespace BSK1.Algorithms
             }
 
             return matrix;
-        }
-
-        private int GetMatrixCapacity(string key)
-        {
-            int n = key.Length;
-            return (n * (n + 1)) / 2;
         }
 
         private int[] TranslateKeyToNumbers(string key)
