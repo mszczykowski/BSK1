@@ -17,17 +17,13 @@ namespace BSK1.ViewModels
 
         public string KeyName { get; }
 
-        private object _targetProperty;
 
-        private string KeyPropertyName { get; }
-        public AlgorithmViewModel(string name, Algorithm algorithm, string keyErrorMessage, string keyName, string keyPropertyName)
+        public AlgorithmViewModel(string name, Algorithm algorithm, string keyErrorMessage, string keyName)
         {
             Name = name;
             Algorithm = algorithm;
             KeyErrorMessage = keyErrorMessage;
             KeyName = keyName;
-
-            KeyPropertyName = keyPropertyName;
         }
 
         public bool IsKeyValid(string key)

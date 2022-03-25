@@ -44,9 +44,9 @@ namespace BSK1.Commands
         {
             ClearOutput();
 
-            _viewModel.ValidateKeyInput();
+            _viewModel.ValidateKey();
 
-            if(_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput))
+            if(_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.Key))
             {
                 string inputUnnormalised;
                 if (_viewModel.IsInputFile) inputUnnormalised = fileService.GetStringFromFile(_viewModel.FilePath);

@@ -15,12 +15,12 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            return input + "chuj" + _viewModel.N;
+            return input + "chuj" + _viewModel.Key;
         }
 
         public override string Encrypt(string input)
         {
-            return input + "dupa" + _viewModel.N;
+            return input + "dupa" + _viewModel.Key;
         }
 
         public override bool IsKeyValid(string key)

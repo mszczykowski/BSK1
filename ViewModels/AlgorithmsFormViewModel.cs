@@ -71,32 +71,20 @@ namespace BSK1.ViewModels
             }
         }
 
-        private string _keyInput;
+        private string _key;
 
-        public string KeyInput
+        public string Key
         {
-            get => _keyInput;
+            get => _key;
             set
             {
-                _keyInput = value;
+                _key = value;
                 
-                ValidateKeyInput();
-
-                if(_algorithmViewModel.IsKeyValid(value)) _algorithmViewModel.SetKey(_keyInput);
-
-                
-                OnPropertyChanged(nameof(KeyInput));
+                ValidateKey();
+             
+                OnPropertyChanged(nameof(Key));
             }
         }
-
-        private int _n;
-        public int N => _n;
-
-        private string _key;
-        public string Key => _key;
-
-        private int _k;
-        public int K => _k;
 
         private string _parametersLabel;
         public string ParametersLabel
@@ -161,12 +149,12 @@ namespace BSK1.ViewModels
         {
             _algorithmsList = new List<AlgorithmViewModel>
             {
-                new AlgorithmViewModel("Rail fence", new RailFenceAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "N", nameof(N)),
-                new AlgorithmViewModel("Przestawienie macierzowe A", new TranspositionAAlgorithm(this), "Klucz musi byc w formacie 1-2-3-4", "Klucz", nameof(Key)),
-                new AlgorithmViewModel("Przestawienie macierzowe B", new TranspositionBAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz", nameof(Key)),
-                new AlgorithmViewModel("Przestawienie macierzowe C", new TranspositionCAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz", nameof(Key)),
-                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "K", nameof(K)),
-                new AlgorithmViewModel("Szyfrowanie Vigenere'a", new VigenereCipherAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz", nameof(Key))
+                new AlgorithmViewModel("Rail fence", new RailFenceAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "N"),
+                new AlgorithmViewModel("Przestawienie macierzowe A", new TranspositionAAlgorithm(this), "Klucz musi byc w formacie 1-2-3-4", "Klucz"),
+                new AlgorithmViewModel("Przestawienie macierzowe B", new TranspositionBAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz"),
+                new AlgorithmViewModel("Przestawienie macierzowe C", new TranspositionCAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz"),
+                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "K"),
+                new AlgorithmViewModel("Szyfrowanie Vigenere'a", new VigenereCipherAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz")
             };
         }
 
@@ -196,18 +184,18 @@ namespace BSK1.ViewModels
             ErrorsChanged?.Invoke(this, e);
         }
 
-        public void ValidateKeyInput()
+        public void ValidateKey()
         {
-            _errorsViewModel.ClearErrors(nameof(KeyInput));
+            _errorsViewModel.ClearErrors(nameof(Key));
 
-            if (String.IsNullOrEmpty(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), "Klucz nie może być pusty");
+            if (String.IsNullOrEmpty(_key)) _errorsViewModel.AddError(nameof(Key), "Klucz nie może być pusty");
 
-            else if(!_algorithmViewModel.IsKeyValid(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), _algorithmViewModel.KeyErrorMessage);
+            else if(!_algorithmViewModel.IsKeyValid(_key)) _errorsViewModel.AddError(nameof(Key), _algorithmViewModel.KeyErrorMessage);
         }
 
         private void ClearKeyInputValidation()
         {
-            _errorsViewModel.ClearErrors(nameof(KeyInput));
+            _errorsViewModel.ClearErrors(nameof(Key));
         }
     }
 }

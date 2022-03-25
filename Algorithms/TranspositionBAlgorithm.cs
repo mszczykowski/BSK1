@@ -16,9 +16,6 @@ namespace BSK1.Algorithms
 
         public override string Encrypt(string input)
         {
-            if (_viewModel.Key == null || _viewModel.Key.Length <= 0) // Checking if key is null or empty
-                return "Klucz nie może być pusty.";
-
             string key = _viewModel.Key; // Key
             string keyAlphabetical = SortString(key); // Key with alphabetical letters
 
