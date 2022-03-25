@@ -62,7 +62,7 @@ namespace BSK1.Algorithms
             int wordsLength = (int)Math.Ceiling((double)input.Length / (double)key.Length);
             string[] wordsTableVertical = new string[key.Length];
 
-            
+            /* Cutting to words and adding to words table (vertically) */
             foreach (char alphabeticalLetter in keyAlphabetical)
             {
                 int columnCount = 1;
@@ -71,7 +71,9 @@ namespace BSK1.Algorithms
                     if (alphabeticalLetter == key[i] && wasLetterUsed[i] == false)
                     {
                         int tempCount = wordsLength;
-                        if (input.Length % key.Length < columnCount)
+
+                        int divisionRest = input.Length % key.Length;
+                        if (divisionRest != 0 && divisionRest < columnCount)
                             tempCount -= 1;
 
                         string encryptedWord = inputToCut.Substring(0, tempCount);
@@ -85,6 +87,7 @@ namespace BSK1.Algorithms
                 }
             }
 
+            /* Reading from words table (horizontally) */
             string result = "";
             for (int i = 0; i < wordsLength; i++)
             {
