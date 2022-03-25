@@ -37,15 +37,8 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            //string key = _viewModel.Key.Replace("-", string.Empty); // Key without dash
-
-            //string[] wordsTableVertical = new string[key.Length];
-        }
-
-        /*public override bool IsKeyValid(string key)
-        {
             throw new NotImplementedException();
-        }*/
+        }
 
         // Methods
         public IEnumerable<string> SplitInParts(string s, int partLength)
