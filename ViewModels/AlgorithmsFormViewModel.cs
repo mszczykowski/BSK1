@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,14 +8,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using BSK1.Algorithms;
 using BSK1.Commands;
-using BSK1.Enums;
 using BSK1.Services;
 
 namespace BSK1.ViewModels
 {
-    internal class AlgorithmsFormViewModel : ViewModelBase
+    internal class AlgorithmsFormViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         private string _inputText;
+        private readonly ErrorsViewModel _errorsViewModel;
+
         public string InputText
         {
             get => _inputText; 
@@ -69,39 +71,32 @@ namespace BSK1.ViewModels
             }
         }
 
-        private int _n;
+        private string _keyInput;
 
-        public int N
+        public string KeyInput
         {
-            get => _n;
+            get => _keyInput;
             set
             {
-                _n = value;
-                OnPropertyChanged(nameof(N));
+                _keyInput = value;
+                
+                ValidateKeyInput();
+
+                if(_algorithmViewModel.IsKeyValid(value)) _algorithmViewModel.SetKey(_keyInput);
+
+                
+                OnPropertyChanged(nameof(KeyInput));
             }
         }
+
+        private int _n;
+        public int N => _n;
 
         private string _key;
-        public string Key
-        {
-            get => _key;
-            set
-            {
-                _key = value;
-                OnPropertyChanged(nameof(Key));
-            }
-        }
+        public string Key => _key;
 
         private int _k;
-        public int K
-        {
-            get => _k;
-            set
-            {
-                _k = value;
-                OnPropertyChanged(nameof(K));
-            }
-        }
+        public int K => _k;
 
         private string _parametersLabel;
         public string ParametersLabel
@@ -114,49 +109,19 @@ namespace BSK1.ViewModels
             }
         }
 
-        private bool _isNVisible;
-        public bool IsNVisible
-        {
-            get => _isNVisible;
-            set
-            {
-                _isNVisible = value;
-                OnPropertyChanged(nameof(IsNVisible));
-            }
-        }
-        private bool _isKeyVisible;
-        public bool IsKeyVisible
-        {
-            get => _isKeyVisible;
-            set
-            {
-                _isKeyVisible = value;
-                OnPropertyChanged(nameof(IsKeyVisible));
-            }
-        }
-        private bool _isKVisible;
-        public bool IsKVisible
-        {
-            get => _isKVisible;
-            set
-            {
-                _isKVisible = value;
-                OnPropertyChanged(nameof(IsKVisible));
-            }
-        }
-
-        private AlgorithmViewModel _algorithm;
+        private AlgorithmViewModel _algorithmViewModel;
         public AlgorithmViewModel AlgorithmViewModel
         {
-            get => _algorithm;
+            get => _algorithmViewModel;
             set
             {
-                _algorithm = value;
+                _algorithmViewModel = value;
                 OnPropertyChanged(nameof(AlgorithmViewModel));
             }
         }
 
         private ICollection<AlgorithmViewModel> _algorithmsList;
+
         public ICollection<AlgorithmViewModel> AlgorithmsList => _algorithmsList;
 
 
@@ -186,43 +151,63 @@ namespace BSK1.ViewModels
             InitialiseAlgorithmsList();
 
             PropertyChanged += OnViewModelPropertyChanged;
+
+            _errorsViewModel = new ErrorsViewModel();
+
+            _errorsViewModel.ErrorsChanged += ErrorsViewModel_ErrorsChanged;
         }
 
         private void InitialiseAlgorithmsList()
         {
             _algorithmsList = new List<AlgorithmViewModel>
             {
-                new AlgorithmViewModel("Rail fence", new RailFenceAlgorithm(this), RequiredForm.N),
-                new AlgorithmViewModel("Przestawienie macierzowe A", new TranspositionAAlgorithm(this), RequiredForm.Key),
-                new AlgorithmViewModel("Przestawienie macierzowe B", new TranspositionBAlgorithm(this), RequiredForm.Key),
-                new AlgorithmViewModel("Przestawienie macierzowe C", new TranspositionCAlgorithm(this), RequiredForm.Key),
-                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), RequiredForm.K),
-                new AlgorithmViewModel("Szyfrowanie Vigenere'a", new VigenereCipherAlgorithm(this), RequiredForm.Key)
+                new AlgorithmViewModel("Rail fence", new RailFenceAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "N", nameof(N)),
+                new AlgorithmViewModel("Przestawienie macierzowe A", new TranspositionAAlgorithm(this), "Klucz musi byc w formacie 1-2-3-4", "Klucz", nameof(Key)),
+                new AlgorithmViewModel("Przestawienie macierzowe B", new TranspositionBAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz", nameof(Key)),
+                new AlgorithmViewModel("Przestawienie macierzowe C", new TranspositionCAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz", nameof(Key)),
+                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "K", nameof(K)),
+                new AlgorithmViewModel("Szyfrowanie Vigenere'a", new VigenereCipherAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz", nameof(Key))
             };
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(AlgorithmViewModel))
+            if (e.PropertyName == nameof(AlgorithmViewModel))
             {
-                IsNVisible = IsKeyVisible = IsKVisible = false;
-
-                switch(_algorithm.RequiredForm)
-                {
-                    case RequiredForm.K:
-                        ParametersLabel = "K:";
-                        IsKVisible = true;
-                        break;
-                    case RequiredForm.N:
-                        ParametersLabel = "N:";
-                        IsNVisible = true;
-                        break;
-                    case RequiredForm.Key:
-                        ParametersLabel = "Klucz:";
-                        IsKeyVisible = true;
-                        break;
-                }
+                ParametersLabel = _algorithmViewModel.KeyName + ":";
+                ClearKeyInputValidation();
             }
+        }
+
+
+        //validation
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        public bool HasErrors => _errorsViewModel.HasErrors;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _errorsViewModel.GetErrors(propertyName);
+        }
+
+        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+        }
+
+        public void ValidateKeyInput()
+        {
+            _errorsViewModel.ClearErrors(nameof(KeyInput));
+
+            if (String.IsNullOrEmpty(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), "Klucz nie może być pusty");
+
+            else if(!_algorithmViewModel.IsKeyValid(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), _algorithmViewModel.KeyErrorMessage);
+        }
+
+        private void ClearKeyInputValidation()
+        {
+            _errorsViewModel.ClearErrors(nameof(KeyInput));
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BSK1.Algorithms
@@ -192,6 +193,11 @@ namespace BSK1.Algorithms
             {
                 return new String(letters);
             }
+        }
+
+        public override bool IsKeyValid(string key)
+        {
+            return !String.IsNullOrEmpty(key) && Regex.IsMatch(key, @"^[a-zA-Z]+$");
         }
     }
 

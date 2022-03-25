@@ -8,13 +8,34 @@
         </Style>
 
         <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="0 15" />
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <AdornedElementPlaceholder />
+                            <ItemsControl
+                                            Margin="0 2 0 0"
+                                            FontSize="12"
+                                            ItemsSource="{Binding}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="Header">
             <Setter Property="Padding" Value="0 20"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
+        
 
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Application.Resources>

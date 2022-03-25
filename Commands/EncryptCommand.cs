@@ -17,8 +17,11 @@ namespace BSK1.Commands
         public override void Execute(object? parameter)
         {
             base.Execute(parameter);
+        }
 
-            SetOutput(_viewModel.AlgorithmViewModel.Algorithm.Encrypt(input));
+        public override string Translate(string input)
+        {
+            return _viewModel.AlgorithmViewModel.Algorithm.Encrypt(input);
         }
     }
 }

@@ -19,7 +19,12 @@ namespace BSK1.Commands
         {
             base.Execute(parameter);
 
-            SetOutput(_viewModel.AlgorithmViewModel.Algorithm.Decrypt(input));
+            
+        }
+
+        public override string Translate(string input)
+        {
+            return _viewModel.AlgorithmViewModel.Algorithm.Decrypt(input);
         }
     }
 }

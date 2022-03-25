@@ -4,25 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BSK1.Enums;
 
 namespace BSK1.ViewModels
 {
     internal class AlgorithmViewModel : ViewModelBase
     {
-        
+
 
         public string Name { get; }
         public Algorithm Algorithm { get; }
+        public string KeyErrorMessage { get; }
 
-        public RequiredForm RequiredForm { get; }
-        public AlgorithmViewModel(string name, Algorithm algorithm, RequiredForm requiredForm)
+        public string KeyName { get; }
+
+        private object _targetProperty;
+
+        private string KeyPropertyName { get; }
+        public AlgorithmViewModel(string name, Algorithm algorithm, string keyErrorMessage, string keyName, string keyPropertyName)
         {
             Name = name;
             Algorithm = algorithm;
-            RequiredForm = requiredForm;
+            KeyErrorMessage = keyErrorMessage;
+            KeyName = keyName;
+
+            KeyPropertyName = keyPropertyName;
         }
 
+        public bool IsKeyValid(string key)
+        {
+            return Algorithm.IsKeyValid(key);
+        }
 
     }
 }

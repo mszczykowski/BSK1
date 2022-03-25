@@ -22,5 +22,10 @@ namespace BSK1.Algorithms
         {
             throw new NotImplementedException();
         }
+
+        public override bool IsKeyValid(string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

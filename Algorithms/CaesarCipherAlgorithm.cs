@@ -50,5 +50,11 @@ namespace BSK1.Algorithms
 
             return output;
         }
+
+        public override bool IsKeyValid(string key)
+        {
+            int x;
+            return (Int32.TryParse(key, out x) && x > 0);
+        }
     }
 }

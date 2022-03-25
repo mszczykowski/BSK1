@@ -22,5 +22,11 @@ namespace BSK1.Algorithms
         {
             return input + "dupa" + _viewModel.N;
         }
+
+        public override bool IsKeyValid(string key)
+        {
+            int x;
+            return (Int32.TryParse(key, out x) && x > 0);
+        }
     }
 }

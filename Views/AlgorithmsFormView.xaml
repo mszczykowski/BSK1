@@ -44,7 +44,7 @@
 
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Wejście:" VerticalAlignment="Center" 
                                Margin="0 0 12 0"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Width="300" Margin="0 10"
+                    <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Width="300"
                              Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Plik:" VerticalAlignment="Center" Margin="0 0 10 0"
@@ -56,17 +56,9 @@
 
                     <TextBlock Grid.Row="2" Text="{Binding ParametersLabel}" VerticalAlignment="Center"/>
 
-                    <TextBox Grid.Column="1" Grid.Row="2" Width="50" Margin="0 10" HorizontalAlignment="Left"
-                             Text="{Binding N, UpdateSourceTrigger=PropertyChanged}" 
+                    <TextBox Grid.Column="1" Grid.Row="2" Width="300" HorizontalAlignment="Left" Grid.ColumnSpan="2"
+                             Text="{Binding KeyInput, UpdateSourceTrigger=PropertyChanged}" 
                              Visibility="{Binding IsNVisible, Converter={StaticResource BoolToVis}}"/>
-
-                    <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 10"
-                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" 
-                             Visibility="{Binding IsKeyVisible, Converter={StaticResource BoolToVis}}"/>
-
-                    <TextBox Grid.Column="1" Grid.Row="2" Width="50" Margin="0 10" HorizontalAlignment="Left"
-                             Text="{Binding K, UpdateSourceTrigger=PropertyChanged}" 
-                             Visibility="{Binding IsKVisible, Converter={StaticResource BoolToVis}}"/>
 
                 </Grid>
             </GroupBox>
