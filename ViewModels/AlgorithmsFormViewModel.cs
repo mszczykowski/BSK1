@@ -164,8 +164,6 @@ namespace BSK1.ViewModels
 
         public ICommand DecryptCommand { get; }
 
-        public ICommand ExitCommand { get; }
-
         public ICommand ChooseFileCommand { get; }
 
         public ICommand OpenOutputFileCommand { get; }
@@ -174,7 +172,6 @@ namespace BSK1.ViewModels
 
         public AlgorithmsFormViewModel()
         {
-            ExitCommand = new ExitCommand();
 
             ChooseFileCommand = new ChooseFileCommand(this);
 
