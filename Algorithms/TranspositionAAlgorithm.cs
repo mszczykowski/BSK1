@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BSK1.Algorithms
@@ -43,18 +44,13 @@ namespace BSK1.Algorithms
         // Methods
         public IEnumerable<string> SplitInParts(string s, int partLength)
         {
-            if (s == null)
-                throw new ArgumentNullException(nameof(s));
-            if (partLength <= 0)
-                throw new ArgumentException("Part length has to be positive.", nameof(partLength));
-
             for (var i = 0; i < s.Length; i += partLength)
                 yield return s.Substring(i, Math.Min(partLength, s.Length - i));
         }
 
         public override bool IsKeyValid(string key)
         {
-            throw new NotImplementedException();
+            return !String.IsNullOrEmpty(key) && Regex.IsMatch(key, @"^([0-9]+-)*[0-9]+$");
         }
     }
 }
