@@ -57,8 +57,7 @@
                     <TextBlock Grid.Row="2" Text="{Binding ParametersLabel}" VerticalAlignment="Center"/>
 
                     <TextBox Grid.Column="1" Grid.Row="2" Width="300" HorizontalAlignment="Left" Grid.ColumnSpan="2"
-                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" 
-                             Visibility="{Binding IsNVisible, Converter={StaticResource BoolToVis}}"/>
+                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" />
 
                 </Grid>
             </GroupBox>
