@@ -13,15 +13,28 @@ namespace BSK1.Algorithms
         public VigenereCipherAlgorithm(AlgorithmsFormViewModel viewModel) : base(viewModel)
         {
         }
+        public String GenerateKey(String str, String key)
+        {
+            int x = str.Length;
+
+            for (int i = 0; ; i++)
+            {
+                if (x == i)
+                    i = 0;
+                if (key.Length == str.Length)
+                    break;
+                key += (key[i]);
+            }
+            return key;
+        }
 
         public override string Decrypt(string input)
         {
+            _viewModel.Key = GenerateKey(input, _viewModel.Key);
             String decryptedText = "";
 
-            for (int i = 0; i < input.Length && 
-                                i < _viewModel.Key.Length; i++) {
-                int letter = (input[i] - _viewModel.Key[i] 
-                                + 26) % 26;
+            for (int i = 0; i < input.Length && i < _viewModel.Key.Length; i++) {
+                int letter = (input[i] - _viewModel.Key[i] + 26) % 26;
                 letter += 'A';
                 decryptedText += (char) (letter);                        
             }
@@ -30,6 +43,7 @@ namespace BSK1.Algorithms
 
         public override string Encrypt(string input)
         {
+            _viewModel.Key = GenerateKey(input, _viewModel.Key);
             String encrypedText = "";
 
             for (int i = 0; i < input.Length; i++) {
