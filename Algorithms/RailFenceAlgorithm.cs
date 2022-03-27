@@ -15,13 +15,14 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            char[][] matrix = new char[Int32.Parse(_viewModel.Key)][];
-            for (int i = 0; i < Int32.Parse(_viewModel.Key); i++){
+            int key = Int32.Parse(_viewModel.Key);
+            char[][] matrix = new char[key][];
+            for (int i = 0; i < key; i++){
                 matrix[i] = new char[input.Length];
             }
             bool dirDown = true;
 
-            for (int i = 0; i < Int32.Parse(_viewModel.Key); i++) {
+            for (int i = 0; i < key; i++) {
                 for (int j = 0; j < input.Length; j++) {
                     matrix[i][j] = '\n';
                 }
@@ -31,12 +32,12 @@ namespace BSK1.Algorithms
             int column = 0;
 
             for (int i = 0; i < input.Length; i++) {
-                dirDown = setDirDown(Int32.Parse(_viewModel.Key), dirDown, row);
+                dirDown = setDirDown(key, dirDown, row);
                 matrix[row][column++] = '*';
                 row = updateRow(dirDown, row);
             }
             int index = 0;
-            for (int j = 0; j < Int32.Parse(_viewModel.Key); j++) {
+            for (int j = 0; j < key; j++) {
                 for (int i = 0; i < input.Length; i++) {
                     if ((matrix[j][i] == '*') && index < input.Length) {
                         matrix[j][i] = input[index++];
@@ -47,7 +48,7 @@ namespace BSK1.Algorithms
             row = 0;
             column = 0;
             for (int i = 0; i < input.Length; i++) {
-                dirDown = setDirDown(Int32.Parse(_viewModel.Key), dirDown, row);
+                dirDown = setDirDown(key, dirDown, row);
 
                 if (matrix[row][column] != '*') {
                     decryptedBuilder.Append(matrix[row][column++]);
@@ -59,25 +60,49 @@ namespace BSK1.Algorithms
 
         public override string Encrypt(string input)
         {
-            StringBuilder sb = new StringBuilder();
-            int i;
-            bool[] taken;
-            taken = new bool[input.Length];
-            for (i = 0; i < input.Length; i += Int32.Parse(_viewModel.Key) + 1) {
-                if (!taken[i]) {
-                    sb.Append(input[i]);
-                    taken[i] = true;
+            int key = Int32.Parse(_viewModel.Key);
+            char[][] matrix = new char[key][];
+            for (int i = 0; i < key; i++)
+            {
+                matrix[i] = new char[input.Length];
+            }
+            for (int i = 0; i < key; i++) {
+                for (int j = 0; j < input.Length; j++) { 
+                    matrix[i][j] = '\n'; 
+                }
+                    
+            }
+
+            bool dirDown = false;
+            int row = 0, col = 0;
+
+            for (int i = 0; i < input.Length; i++) {
+                if (row == 0 || row == key - 1)
+                {
+                    dirDown = !dirDown;
+                }
+                    matrix[row][col++] = input[i];
+                if (dirDown)
+                {
+                    row++;
+                }
+                else
+                {
+                    row--;
                 }
             }
-            for (int j = 1; j < Int32.Parse(_viewModel.Key); j++) {
-                for (i -= input.Length - 1; i < input.Length; i += (Int32.Parse(_viewModel.Key) - j)) {
-                    if (!taken[i]) {
-                        sb.Append(input[i]);
-                        taken[i] = true;
+
+
+            String encryptedText = "";
+            for (int i = 0; i < key; i++) {
+                for (int j = 0; j < input.Length; j++) {
+                    if (matrix[i][j] != '\n') {
+                        encryptedText += matrix[i][j];
+                    }
                 }
             }
-        }
-        return sb.ToString();    
+      
+        return encryptedText;    
         }
 
         public override bool IsKeyValid(string key)
