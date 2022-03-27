@@ -25,7 +25,7 @@ namespace BSK1.Algorithms
             {
                 int a = x - SHIFT;
 
-                int c = (a + k) % ALPHABET_LENGTH;
+                int c = Mod((a + k), ALPHABET_LENGTH);
 
                 output += Convert.ToChar(c + SHIFT);
             });
@@ -43,12 +43,17 @@ namespace BSK1.Algorithms
             {
                 int c = x - SHIFT;
 
-                int a = (c + (ALPHABET_LENGTH - k)) % ALPHABET_LENGTH;
+                int a = Mod(c + (ALPHABET_LENGTH - k), ALPHABET_LENGTH);
 
                 output += Convert.ToChar(a + SHIFT);
             });
 
             return output;
+        }
+
+        private int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
         }
 
         public override bool IsKeyValid(string key)
