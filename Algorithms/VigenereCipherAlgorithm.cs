@@ -16,12 +16,30 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            throw new NotImplementedException();
+            String decryptedText = "";
+
+            for (int i = 0; i < input.Length && 
+                                i < _viewModel.Key.Length; i++) {
+                int letter = (input[i] - _viewModel.Key[i] 
+                                + 26) % 26;
+                letter += 'A';
+                decryptedText += (char) (letter);                        
+            }
+            return decryptedText;
         }
 
         public override string Encrypt(string input)
         {
-            throw new NotImplementedException();
+            String encrypedText = "";
+
+            for (int i = 0; i < input.Length; i++) {
+                int letter = (input[i] + _viewModel[i]) % 26;
+
+                letter += 'A';
+
+                encrypedText += (char) (letter);
+            }
+            return encrypedText;
         }
 
         public override bool IsKeyValid(string key)
