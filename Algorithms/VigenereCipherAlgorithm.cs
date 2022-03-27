@@ -16,7 +16,9 @@ namespace BSK1.Algorithms
         public String GenerateKey(String str, String key)
         {
             int x = str.Length;
-
+            if (key.Length > str.Length) {
+                return key.Substring(0, str.Length);
+            }
             for (int i = 0; ; i++)
             {
                 if (x == i)
