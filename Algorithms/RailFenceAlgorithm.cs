@@ -108,7 +108,7 @@ namespace BSK1.Algorithms
         public override bool IsKeyValid(string key)
         {
             int x;
-            return (Int32.TryParse(key, out x) && x > 0);
+            return (Int32.TryParse(key, out x) && x > 1);
         }
 
         private int updateRow(bool dirDown, int row) {
