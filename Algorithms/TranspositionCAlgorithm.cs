@@ -40,7 +40,7 @@ namespace BSK1.Algorithms
         public override string Decrypt(string input)
         {
 
-            string key = _viewModel.Key;
+            string key = _viewModel.Key.ToUpper();
 
             int[] translatedKey = TranslateKeyToNumbers(key);
 
