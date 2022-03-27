@@ -83,7 +83,39 @@ namespace BSK1.Algorithms
 
         public override bool IsKeyValid(string key)
         {
-            return !String.IsNullOrEmpty(key) && Regex.IsMatch(key, @"^([0-9]+-)*[0-9]+$");
+            if(String.IsNullOrEmpty(key) || !Regex.IsMatch(key, @"^([0-9]+-)*[0-9]+$"))
+                return false;
+
+            int[] numbers = Array.ConvertAll(_viewModel.Key.Split('-'), int.Parse);
+            bool[] numberExists = new bool[numbers.Length];
+            bool isValid = true;
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                int currentNumber = numbers[i];
+
+                if(currentNumber > numbers.Length)
+                {
+                    isValid = false;
+                    break;
+                }
+
+                numberExists[currentNumber - 1] = true; 
+            }
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (numberExists[i] == false)
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if(!isValid)
+                return false;
+
+            return true;
         }
     }
 }
