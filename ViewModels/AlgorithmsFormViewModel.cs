@@ -164,6 +164,8 @@ namespace BSK1.ViewModels
             {
                 ParametersLabel = _algorithmViewModel.KeyName + ":";
                 ClearKeyInputValidation();
+                OutputFileLinkVisible = false;
+                OutputText = "";
             }
         }
 
