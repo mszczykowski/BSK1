@@ -53,7 +53,7 @@ namespace BSK1.Algorithms
                 return "Klucz nie może być pusty.";
 
             string inputToCut = input;
-            string key = _viewModel.Key; // Key
+            string key = _viewModel.Key.ToUpper(); // Key
             string keyAlphabetical = SortString(key); // Key with alphabetical letters
             bool[] wasLetterUsed = new bool[key.Length]; // Array of key letters
             for (int i = 0; i < wasLetterUsed.Length; i++)
