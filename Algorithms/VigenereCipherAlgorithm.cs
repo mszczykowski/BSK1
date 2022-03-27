@@ -31,6 +31,7 @@ namespace BSK1.Algorithms
         public override string Decrypt(string input)
         {
             _viewModel.Key = GenerateKey(input, _viewModel.Key);
+            _viewModel.Key = _viewModel.Key.ToUpper();
             String decryptedText = "";
 
             for (int i = 0; i < input.Length && i < _viewModel.Key.Length; i++) {
@@ -44,6 +45,7 @@ namespace BSK1.Algorithms
         public override string Encrypt(string input)
         {
             _viewModel.Key = GenerateKey(input, _viewModel.Key);
+            _viewModel.Key = _viewModel.Key.ToUpper();
             String encrypedText = "";
 
             for (int i = 0; i < input.Length; i++) {
