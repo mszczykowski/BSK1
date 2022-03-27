@@ -15,11 +15,14 @@ namespace BSK1.Algorithms
 
         public override string Decrypt(string input)
         {
-            char[][] matrix = new char[key][encrypted.length()];
-            boolean dirDown = true;
+            char[][] matrix = new char[Int32.Parse(_viewModel.Key)][];
+            for (int i = 0; i < Int32.Parse(_viewModel.Key); i++){
+                matrix[i] = new char[input.Length];
+            }
+            bool dirDown = true;
 
-            for (int i = 0; i < key; i++) {
-                for (int j = 0; j < encrypted.length(); j++) {
+            for (int i = 0; i < Int32.Parse(_viewModel.Key); i++) {
+                for (int j = 0; j < input.Length; j++) {
                     matrix[i][j] = '\n';
                 }
             }
@@ -27,27 +30,27 @@ namespace BSK1.Algorithms
             int row = 0;
             int column = 0;
 
-            for (int i = 0; i < encrypted.length(); i++) {
-                dirDown = setDirDown(key, dirDown, row);
+            for (int i = 0; i < input.Length; i++) {
+                dirDown = setDirDown(Int32.Parse(_viewModel.Key), dirDown, row);
                 matrix[row][column++] = '*';
                 row = updateRow(dirDown, row);
             }
             int index = 0;
-            for (int j = 0; j < key; j++) {
-                for (int i = 0; i < encrypted.length(); i++) {
-                    if ((matrix[j][i] == '*') && index < encrypted.length()) {
-                        matrix[j][i] = encrypted.charAt(index++);
+            for (int j = 0; j < Int32.Parse(_viewModel.Key); j++) {
+                for (int i = 0; i < input.Length; i++) {
+                    if ((matrix[j][i] == '*') && index < input.Length) {
+                        matrix[j][i] = input[index++];
                     }
                 }
             }
             StringBuilder decryptedBuilder = new StringBuilder();
             row = 0;
             column = 0;
-            for (int i = 0; i < encrypted.length(); i++) {
-                dirDown = setDirDown(key, dirDown, row);
+            for (int i = 0; i < input.Length; i++) {
+                dirDown = setDirDown(Int32.Parse(_viewModel.Key), dirDown, row);
 
                 if (matrix[row][column] != '*') {
-                    decryptedBuilder.append(matrix[row][column++]);
+                    decryptedBuilder.Append(matrix[row][column++]);
                 }
                 row = updateRow(dirDown, row);
             }
@@ -58,23 +61,23 @@ namespace BSK1.Algorithms
         {
             StringBuilder sb = new StringBuilder();
             int i;
-            boolean[] taken;
-            taken = new boolean[initialMessage.length()];
-            for (i = 0; i < initialMessage.length(); i += Int32.Parse(_viewModel.Key) + 1) {
+            bool[] taken;
+            taken = new bool[input.Length];
+            for (i = 0; i < input.Length; i += Int32.Parse(_viewModel.Key) + 1) {
                 if (!taken[i]) {
-                    sb.append(initialMessage.charAt(i));
+                    sb.Append(input[i]);
                     taken[i] = true;
                 }
             }
             for (int j = 1; j < Int32.Parse(_viewModel.Key); j++) {
-                for (i -= initialMessage.length() - 1; i < initialMessage.length(); i += (_viewModel.Key - j)) {
+                for (i -= input.Length - 1; i < input.Length; i += (Int32.Parse(_viewModel.Key) - j)) {
                     if (!taken[i]) {
-                        sb.append(initialMessage.charAt(i));
+                        sb.Append(input[i]);
                         taken[i] = true;
                 }
             }
         }
-        return sb;    
+        return sb.ToString();    
         }
 
         public override bool IsKeyValid(string key)
@@ -83,7 +86,7 @@ namespace BSK1.Algorithms
             return (Int32.TryParse(key, out x) && x > 0);
         }
 
-        private int updateRow(boolean dirDown, int row) {
+        private int updateRow(bool dirDown, int row) {
             if (dirDown) {
                 row += 1;
             } else {
@@ -92,7 +95,7 @@ namespace BSK1.Algorithms
             return row;
         }
 
-        private boolean setDirDown(int key, boolean dirDown, int row) {
+        private bool setDirDown(int key, bool dirDown, int row) {
             if (row == 0) {
                 dirDown = true;
             } else if (row == key -1) {

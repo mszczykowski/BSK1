@@ -33,7 +33,7 @@ namespace BSK1.Algorithms
             String encrypedText = "";
 
             for (int i = 0; i < input.Length; i++) {
-                int letter = (input[i] + _viewModel[i]) % 26;
+                int letter = (input[i] + _viewModel.Key[i]) % 26;
 
                 letter += 'A';
 
