@@ -1,4 +1,5 @@
-﻿using BSK1.ViewModels;
+﻿using BSK1.Algorithms.KeyGenerators;
+using BSK1.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override string Decrypt(string input)
         {
+            IKeyGenerator keyGenerator = _viewModel.AlgorithmViewModel.KeyGenerator;
+
+            string key = keyGenerator.GenerateKey(input.Length);
+            
             return input;
         }
 

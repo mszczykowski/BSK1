@@ -12,6 +12,11 @@ namespace BSK1.Algorithms.KeyGenerators
         {
         }
 
+        public override string GenerateKey(int keyLenght)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void GenerateKeyElement()
         {
             key += 1;

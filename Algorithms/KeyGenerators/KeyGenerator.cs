@@ -70,5 +70,7 @@ namespace BSK1.Algorithms.KeyGenerators
         }
 
         public abstract void GenerateKeyElement();
+
+        public abstract string GenerateKey(int keyLenght);
     }
 }

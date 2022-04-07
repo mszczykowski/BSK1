@@ -16,5 +16,7 @@ namespace BSK1.Algorithms.KeyGenerators
         void ClearKey();
 
         void GenerateKeyElement();
+
+        string GenerateKey(int keyLenght);
     }
 }
