@@ -1,4 +1,7 @@
 ﻿using BSK1.Algorithms;
+using BSK1.Algorithms.BinaryAlgorithms;
+using BSK1.Algorithms.TextAlgorithms;
+using BSK1.Enums;
 using BSK1.Services;
 using BSK1.ViewModels;
 using System;
@@ -46,15 +49,18 @@ namespace BSK1.Commands
 
             _viewModel.ValidateKey();
 
-            if(_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.Key))
+
+            if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.Key)) return;
+
+
+            switch (_viewModel.AlgorithmViewModel.AlgorithmType)
             {
-                string inputUnnormalised;
-                if (_viewModel.IsInputFile) inputUnnormalised = fileService.GetStringFromFile(_viewModel.FilePath);
-                else inputUnnormalised = _viewModel.InputText;
-
-                input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
-
-                SetOutput(Translate(input));
+                case AlgorithmType.Text:
+                    SetUpForText();
+                    break;
+                case AlgorithmType.Binary:
+                    SetUpForBinary();
+                    break;
             }
         }
 
@@ -76,5 +82,31 @@ namespace BSK1.Commands
             _viewModel.OutputFileLinkVisible = false;
             _viewModel.OutputText = "";
         }
+
+        private void SetUpForText()
+        {
+            string inputUnnormalised;
+            if (_viewModel.IsInputFile) inputUnnormalised = fileService.GetStringFromFile(_viewModel.FilePath);
+            else inputUnnormalised = _viewModel.InputText;
+
+            input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
+
+            SetOutput(Translate(input));
+        }
+
+        private void SetUpForBinary()
+        {
+            byte[] input;
+            if (_viewModel.IsInputFile) input = fileService.GetBinaryData(_viewModel.FilePath);
+            else input = Encoding.ASCII.GetBytes(_viewModel.InputText);
+
+            SetOutput(Translate(ToBinary(input)));
+        }
+
+        public static String ToBinary(Byte[] data)
+        {
+            return string.Join("", data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
+        }
+
     }
 }

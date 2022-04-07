@@ -5,9 +5,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using BSK1.Algorithms;
+using BSK1.Algorithms.BinaryAlgorithms;
+using BSK1.Algorithms.KeyGenerators;
+using BSK1.Algorithms.TextAlgorithms;
 using BSK1.Commands;
+using BSK1.Commands.KeyGeneratorCommands;
+using BSK1.Enums;
 using BSK1.Services;
 
 namespace BSK1.ViewModels
@@ -108,6 +114,17 @@ namespace BSK1.ViewModels
             }
         }
 
+        private string _generatedKey;
+        public string GeneratedKey
+        {
+            get => _generatedKey;
+            set
+            {
+                _generatedKey = value;
+                OnPropertyChanged(nameof(GeneratedKey));
+            }
+        }
+
         private ICollection<AlgorithmViewModel> _algorithmsList;
 
         public ICollection<AlgorithmViewModel> AlgorithmsList => _algorithmsList;
@@ -123,14 +140,30 @@ namespace BSK1.ViewModels
 
         public ICommand CopyOutputToInputCommand { get; }
 
+        public ICommand GenerateKeyCommand { get; }
+
+        public ICommand StopGeneratingKeyCommand { get; }
+
+        public ICommand ClearKeyCommand { get; }
+
+
         public AlgorithmsFormViewModel()
         {
+
+            ClearKeyCommand = new ClearKeyCommand(this);
+
+            GenerateKeyCommand = new GenerateKeyCommand(this);
+
+            StopGeneratingKeyCommand = new StopGeneratingKeyCommand(this);
+
+
 
             ChooseFileCommand = new ChooseFileCommand(this);
 
             OpenOutputFileCommand = new OpenOutputFileCommand();
 
             CopyOutputToInputCommand = new CopyOutputToInputCommand(this);
+
 
             EncryptCommand = new EncryptCommand(this);
 
@@ -149,12 +182,64 @@ namespace BSK1.ViewModels
         {
             _algorithmsList = new List<AlgorithmViewModel>
             {
-                new AlgorithmViewModel("Rail fence", new RailFenceAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "N"),
-                new AlgorithmViewModel("Przestawienie macierzowe A", new TranspositionAAlgorithm(this), "Klucz musi byc w formacie 1-2-3-4", "Klucz"),
-                new AlgorithmViewModel("Przestawienie macierzowe B", new TranspositionBAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz"),
-                new AlgorithmViewModel("Przestawienie macierzowe C", new TranspositionCAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz"),
-                new AlgorithmViewModel("Szyfr Cezara", new CaesarCipherAlgorithm(this), "Podaj liczbę całkowitą większą od 0", "K"),
-                new AlgorithmViewModel("Szyfrowanie Vigenere'a", new VigenereCipherAlgorithm(this), "Klucz musi składać się z samych liter", "Klucz")
+                new AlgorithmViewModel
+                {
+                    Name = "Szyfr strumieniowy",
+                    Algorithm = new StreamCipher(this),
+                    KeyErrorMessage = "Tekst błędu",
+                    KeyName = "Potęgi",
+                    AlgorithmType = AlgorithmType.Binary,
+                    KeyGenerator = new LFSR(UpdateGeneratedKey)
+
+                },
+                new AlgorithmViewModel
+                {
+                    Name = "Rail fence",
+                    Algorithm = new RailFenceAlgorithm(this),
+                    KeyErrorMessage = "Podaj liczbę całkowitą większą od 0",
+                    KeyName = "N",
+                    AlgorithmType = AlgorithmType.Text
+                },
+                new AlgorithmViewModel
+                {
+                    Name = "Przestawienie macierzowe A",
+                    Algorithm = new TranspositionAAlgorithm(this),
+                    KeyErrorMessage = "Klucz musi byc w formacie 1-2-3-4",
+                    KeyName = "Klucz",
+                    AlgorithmType = AlgorithmType.Text
+                },
+                new AlgorithmViewModel
+                {
+                    Name = "Przestawienie macierzowe B",
+                    Algorithm = new TranspositionBAlgorithm(this),
+                    KeyErrorMessage = "Klucz musi składać się z samych liter",
+                    KeyName = "Klucz",
+                    AlgorithmType = AlgorithmType.Text
+                },
+                new AlgorithmViewModel
+                {
+                    Name = "Przestawienie macierzowe C",
+                    Algorithm = new TranspositionCAlgorithm(this),
+                    KeyErrorMessage = "Klucz musi składać się z samych liter",
+                    KeyName = "Klucz",
+                    AlgorithmType = AlgorithmType.Text
+                },
+                new AlgorithmViewModel
+                {
+                    Name = "Szyfr Cezara",
+                    Algorithm = new CaesarCipherAlgorithm(this),
+                    KeyErrorMessage = "Podaj liczbę całkowitą większą od 0",
+                    KeyName = "K",
+                    AlgorithmType = AlgorithmType.Text
+                },
+                 new AlgorithmViewModel
+                {
+                    Name = "Szyfrowanie Vigenere'a",
+                    Algorithm = new VigenereCipherAlgorithm(this),
+                    KeyErrorMessage = "Klucz musi składać się z samych liter",
+                    KeyName = "Klucz",
+                    AlgorithmType = AlgorithmType.Text
+                }
             };
         }
 
@@ -198,6 +283,21 @@ namespace BSK1.ViewModels
         private void ClearKeyInputValidation()
         {
             _errorsViewModel.ClearErrors(nameof(Key));
+        }
+
+        public static void UiInvoke(Action a)
+        {
+            if (Application.Current != null) Application.Current.Dispatcher.Invoke(a);
+        }
+
+        private void UpdateGeneratedKey(object sender, EventArgs arguments)
+        {
+            UiInvoke(() =>
+            {
+                var generator = sender as IKeyGenerator;
+                GeneratedKey = generator.Key;
+            });
+            
         }
     }
 }

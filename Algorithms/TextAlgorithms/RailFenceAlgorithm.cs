@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BSK1.ViewModels;
 
-namespace BSK1.Algorithms
+namespace BSK1.Algorithms.TextAlgorithms
 {
     internal class RailFenceAlgorithm : Algorithm
     {

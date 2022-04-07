@@ -26,6 +26,11 @@ namespace BSK1.Services
             return result;
         }
 
+        public byte[] GetBinaryData(string filePath)
+        {
+            return File.ReadAllBytes(filePath);
+        }
+
         public void SaveStringToOutputFile(string output)
         {
             File.WriteAllText(outputFilePath, output);

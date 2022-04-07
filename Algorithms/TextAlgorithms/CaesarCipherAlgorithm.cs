@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSK1.Algorithms
+namespace BSK1.Algorithms.TextAlgorithms
 {
     internal class CaesarCipherAlgorithm : Algorithm
     {

@@ -24,5 +24,10 @@ namespace BSK1.Views
         {
             InitializeComponent();
         }
+
+        private void GeneratedKeyTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GeneratedKeyTextBox.ScrollToEnd();
+        }
     }
 }

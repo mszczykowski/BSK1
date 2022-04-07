@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BSK1.Algorithms
+namespace BSK1.Algorithms.TextAlgorithms
 {
     internal class TranspositionCAlgorithm : Algorithm
     {
