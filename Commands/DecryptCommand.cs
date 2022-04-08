@@ -18,8 +18,6 @@ namespace BSK1.Commands
         public override void Execute(object? parameter)
         {
             base.Execute(parameter);
-
-            
         }
 
         public override string Translate(string input)

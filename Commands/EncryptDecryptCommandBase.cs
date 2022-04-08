@@ -20,7 +20,6 @@ namespace BSK1.Commands
 
         protected FileService fileService;
 
-        protected string input;
 
         public EncryptDecryptCommandBase(AlgorithmsFormViewModel viewModel)
         {
@@ -50,7 +49,7 @@ namespace BSK1.Commands
             _viewModel.ValidateKey();
 
 
-            if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.Key)) return;
+            if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput)) return;
 
 
             switch (_viewModel.AlgorithmViewModel.AlgorithmType)
@@ -71,10 +70,22 @@ namespace BSK1.Commands
             if (_viewModel.IsInputFile)
             {
                 fileService.SaveStringToOutputFile(output);
+                _viewModel.OutputFilePath = FileService.outputFilePath;
                 _viewModel.OutputFileLinkVisible = true;
                 MessageBox.Show("Zmodyfikowano plik wyjściowy");
             }
             else _viewModel.OutputText = output;
+        }
+
+        protected void SetOutput(byte[] output)
+        {
+            if (_viewModel.IsInputFile)
+            {
+                var filePath = fileService.SaveBytesToFile(_viewModel.FilePath, output);
+                _viewModel.OutputFilePath = filePath;
+                _viewModel.OutputFileLinkVisible = true;
+            }
+            else _viewModel.OutputText = Encoding.ASCII.GetString(output);
         }
 
         protected void ClearOutput()
@@ -89,7 +100,7 @@ namespace BSK1.Commands
             if (_viewModel.IsInputFile) inputUnnormalised = fileService.GetStringFromFile(_viewModel.FilePath);
             else inputUnnormalised = _viewModel.InputText;
 
-            input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
+            var input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
 
             SetOutput(Translate(input));
         }
@@ -100,12 +111,25 @@ namespace BSK1.Commands
             if (_viewModel.IsInputFile) input = fileService.GetBinaryData(_viewModel.FilePath);
             else input = Encoding.ASCII.GetBytes(_viewModel.InputText);
 
-            SetOutput(Translate(ToBinary(input)));
+            string output = Translate(ToBinary(input));
+
+            SetOutput(ToByte(output));
         }
 
-        public static String ToBinary(Byte[] data)
+        public String ToBinary(Byte[] data)
         {
             return string.Join("", data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
+        }
+
+        public byte[] ToByte(string data)
+        {
+            int numOfBytes = Convert.ToInt32((Math.Ceiling(Convert.ToDouble(data.Length) / 8)));
+            byte[] bytes = new byte[numOfBytes];
+            for (int i = 0; i < numOfBytes; ++i)
+            {
+                bytes[i] = Convert.ToByte(data.Substring(8 * i, 8), 2);
+            }
+            return bytes;
         }
 
     }

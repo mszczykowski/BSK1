@@ -15,7 +15,9 @@ namespace BSK1.Commands.KeyGeneratorCommands
 
         public override void Execute(object? parameter)
         {
-            _algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.StartGeneratingKey();
+            _algorithmsFormViewModel.ValidateKey();
+            if (_algorithmsFormViewModel.AlgorithmViewModel.IsKeyValid(_algorithmsFormViewModel.KeyInput))
+                _algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.StartGeneratingKey();
         }
     }
 }

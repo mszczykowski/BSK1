@@ -17,7 +17,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Encrypt(string input)
         {
-            int k = Int32.Parse(_viewModel.Key);
+            int k = Int32.Parse(_viewModel.KeyInput);
 
             string output = "";
 
@@ -35,7 +35,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Decrypt(string input)
         {
-            int k = Int32.Parse(_viewModel.Key);
+            int k = Int32.Parse(_viewModel.KeyInput);
 
             string output = "";
 

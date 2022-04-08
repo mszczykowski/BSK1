@@ -16,7 +16,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Encrypt(string input)
         {
-            string key = _viewModel.Key; // Key
+            string key = _viewModel.KeyInput; // Key
             string keyAlphabetical = SortString(key); // Key with alphabetical letters
 
             bool[] wasLetterUsed = new bool[key.Length]; // Array of key letters
@@ -49,11 +49,11 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Decrypt(string input)
         {
-            if (_viewModel.Key == null || _viewModel.Key.Length <= 0) // Checking if key is null or empty
+            if (_viewModel.KeyInput == null || _viewModel.KeyInput.Length <= 0) // Checking if key is null or empty
                 return "Klucz nie może być pusty.";
 
             string inputToCut = input;
-            string key = _viewModel.Key.ToUpper(); // Key
+            string key = _viewModel.KeyInput.ToUpper(); // Key
             string keyAlphabetical = SortString(key); // Key with alphabetical letters
             bool[] wasLetterUsed = new bool[key.Length]; // Array of key letters
             for (int i = 0; i < wasLetterUsed.Length; i++)

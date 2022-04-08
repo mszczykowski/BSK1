@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using BSK1.Enums;
 
 namespace BSK1.Commands
 {
@@ -19,10 +20,22 @@ namespace BSK1.Commands
 
         public override void Execute(object? parameter)
         {
+            string filter = "";
+
+            switch(_viewModel.AlgorithmViewModel.AlgorithmType)
+            {
+                case AlgorithmType.Text:
+                    filter = "Pliki tekstowe .txt|*.txt";
+                    break;
+                case AlgorithmType.Binary:
+                    filter = "Wszystkie pliki|*.*";
+                    break;
+            }
+            
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 InitialDirectory = "c:\\",
-                Filter = "txt files (*.txt)|*.txt",
+                Filter = filter,
                 RestoreDirectory = true,
                 Title = "Wybierz plik",
                 DefaultExt = "txt",

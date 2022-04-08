@@ -36,7 +36,7 @@ namespace BSK1.Commands
             if(!String.IsNullOrEmpty(_moduleBaseViewModel.OutputText)) 
                 _moduleBaseViewModel.InputText = _moduleBaseViewModel.OutputText;
             if (_moduleBaseViewModel.OutputFileLinkVisible)
-                _moduleBaseViewModel.FilePath = FileService.outputFilePath;
+                _moduleBaseViewModel.FilePath = _moduleBaseViewModel.OutputFilePath;
         }
     }
 }

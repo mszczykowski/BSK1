@@ -55,6 +55,17 @@ namespace BSK1.ViewModels
             }
         }
 
+        private string _outputFilePath;
+        public string OutputFilePath
+        {
+            get => _outputFilePath;
+            set
+            {
+                _outputFilePath = value;
+                OnPropertyChanged(nameof(OutputFilePath));
+            }
+        }
+
         private bool _outputFileLinkVisible;
         public bool OutputFileLinkVisible
         {
@@ -77,18 +88,18 @@ namespace BSK1.ViewModels
             }
         }
 
-        private string _key;
+        private string _keyInput;
 
-        public string Key
+        public string KeyInput
         {
-            get => _key;
+            get => _keyInput;
             set
             {
-                _key = value;
+                _keyInput = value;
                 
                 ValidateKey();
-             
-                OnPropertyChanged(nameof(Key));
+                UpdatePolynominal();
+                OnPropertyChanged(nameof(KeyInput));
             }
         }
 
@@ -122,6 +133,17 @@ namespace BSK1.ViewModels
             {
                 _generatedKey = value;
                 OnPropertyChanged(nameof(GeneratedKey));
+            }
+        }
+
+        private string _polynominal;
+        public string Polynominal
+        {
+            get => _polynominal;
+            set
+            {
+                _polynominal = value;
+                OnPropertyChanged(nameof(Polynominal));
             }
         }
 
@@ -160,7 +182,7 @@ namespace BSK1.ViewModels
 
             ChooseFileCommand = new ChooseFileCommand(this);
 
-            OpenOutputFileCommand = new OpenOutputFileCommand();
+            OpenOutputFileCommand = new OpenOutputFileCommand(this);
 
             CopyOutputToInputCommand = new CopyOutputToInputCommand(this);
 
@@ -186,7 +208,7 @@ namespace BSK1.ViewModels
                 {
                     Name = "Szyfr strumieniowy",
                     Algorithm = new StreamCipher(this),
-                    KeyErrorMessage = "Tekst błędu",
+                    KeyErrorMessage = "Tu trzeba coś wpisać",
                     KeyName = "Potęgi",
                     AlgorithmType = AlgorithmType.Binary,
                     KeyGenerator = new LFSR(UpdateGeneratedKey)
@@ -251,6 +273,9 @@ namespace BSK1.ViewModels
                 ClearKeyInputValidation();
                 OutputFileLinkVisible = false;
                 OutputText = "";
+                FilePath = "";
+                GeneratedKey = "";
+
             }
         }
 
@@ -273,16 +298,24 @@ namespace BSK1.ViewModels
 
         public void ValidateKey()
         {
-            _errorsViewModel.ClearErrors(nameof(Key));
+            _errorsViewModel.ClearErrors(nameof(KeyInput));
 
-            if (String.IsNullOrEmpty(_key)) _errorsViewModel.AddError(nameof(Key), "Klucz nie może być pusty");
+            if (String.IsNullOrEmpty(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), "Klucz nie może być pusty");
 
-            else if(!_algorithmViewModel.IsKeyValid(_key)) _errorsViewModel.AddError(nameof(Key), _algorithmViewModel.KeyErrorMessage);
+            else if(!_algorithmViewModel.IsKeyValid(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), _algorithmViewModel.KeyErrorMessage);
+        }
+
+        public void UpdatePolynominal()
+        {
+            if (AlgorithmViewModel.KeyGenerator == null) return;
+            if (!_algorithmViewModel.IsKeyValid(_keyInput)) return;
+
+            Polynominal = "tu trzeba aktualizować wielomian";
         }
 
         private void ClearKeyInputValidation()
         {
-            _errorsViewModel.ClearErrors(nameof(Key));
+            _errorsViewModel.ClearErrors(nameof(KeyInput));
         }
 
         public static void UiInvoke(Action a)

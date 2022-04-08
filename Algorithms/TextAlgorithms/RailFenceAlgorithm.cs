@@ -15,7 +15,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Decrypt(string input)
         {
-            int key = Int32.Parse(_viewModel.Key);
+            int key = Int32.Parse(_viewModel.KeyInput);
             char[][] matrix = new char[key][];
             for (int i = 0; i < key; i++){
                 matrix[i] = new char[input.Length];
@@ -60,7 +60,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Encrypt(string input)
         {
-            int key = Int32.Parse(_viewModel.Key);
+            int key = Int32.Parse(_viewModel.KeyInput);
             char[][] matrix = new char[key][];
             for (int i = 0; i < key; i++)
             {

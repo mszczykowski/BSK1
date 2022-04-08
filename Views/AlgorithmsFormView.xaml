@@ -58,7 +58,7 @@
                     <TextBlock Grid.Row="2" Text="{Binding ParametersLabel}" VerticalAlignment="Center"/>
 
                     <TextBox Grid.Column="1" Grid.Row="2" Width="300" HorizontalAlignment="Left" Grid.ColumnSpan="2"
-                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding KeyInput, UpdateSourceTrigger=PropertyChanged}" />
 
                 </Grid>
             </GroupBox>
@@ -77,7 +77,7 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="0 0 5 10" Text="Wielomian: " VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" Text="y = x + y + z" Margin="0 0 0 10" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Polynominal}" Margin="0 0 0 10" VerticalAlignment="Center"/>
                         
                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                             <Button Content="Generuj" Margin="0 5 5 10" Command="{Binding GenerateKeyCommand}"/>
@@ -156,7 +156,9 @@
 
                     <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" 
                                Visibility="{Binding OutputFileLinkVisible, Converter={StaticResource BoolToVis}}">
-                        <Hyperlink Command="{Binding OpenOutputFileCommand}">output.txt</Hyperlink>
+                        <Hyperlink Command="{Binding OpenOutputFileCommand}">
+                            <TextBlock Text="{Binding OutputFilePath}"/>
+                        </Hyperlink>
                     </TextBlock>
 
                     <Button Grid.Row="2" Content="Kopiuj na wejście" Grid.ColumnSpan="2" HorizontalAlignment="Center" 

@@ -16,7 +16,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Encrypt(string input)
         {
-            int[] key = Array.ConvertAll(_viewModel.Key.Split('-'), int.Parse); // Ints array (chars divided by hyphen converted to int)
+            int[] key = Array.ConvertAll(_viewModel.KeyInput.Split('-'), int.Parse); // Ints array (chars divided by hyphen converted to int)
 
             List<string> wordsTable = SplitInParts(input, key.Length).ToList();
 
@@ -38,7 +38,7 @@ namespace BSK1.Algorithms.TextAlgorithms
 
         public override string Decrypt(string input)
         {
-            int[] key = Array.ConvertAll(_viewModel.Key.Split('-'), int.Parse); // Ints array (chars divided by hyphen converted to int)
+            int[] key = Array.ConvertAll(_viewModel.KeyInput.Split('-'), int.Parse); // Ints array (chars divided by hyphen converted to int)
             string inputToCut = input;
 
             string[] wordsTableVertical = new string[key.Length];
@@ -86,7 +86,7 @@ namespace BSK1.Algorithms.TextAlgorithms
             if(String.IsNullOrEmpty(key) || !Regex.IsMatch(key, @"^([0-9]+-)*[0-9]+$"))
                 return false;
 
-            int[] numbers = Array.ConvertAll(_viewModel.Key.Split('-'), int.Parse);
+            int[] numbers = Array.ConvertAll(_viewModel.KeyInput.Split('-'), int.Parse);
             bool[] numberExists = new bool[numbers.Length];
             bool isValid = true;
 
