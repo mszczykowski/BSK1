@@ -274,8 +274,15 @@ namespace BSK1.ViewModels
                 OutputFileLinkVisible = false;
                 OutputText = "";
                 FilePath = "";
-                GeneratedKey = "";
 
+                _algorithmsList.ToList().ForEach(algorithm =>
+                {
+                    if(algorithm.KeyGenerator != null)
+                    {
+                        algorithm.KeyGenerator.StopGeneratingKey();
+                        algorithm.KeyGenerator.ClearKey();
+                    }
+                });
             }
         }
 
