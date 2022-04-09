@@ -76,5 +76,13 @@ namespace BSK1.Algorithms.KeyGenerators
         public abstract void GenerateKeyElement();
 
         public abstract string GenerateKey(int keyLenght);
+
+        public static char XOR(char a, char b)
+        {
+            if (a == b)
+                return '0';
+            else
+                return '1';
+        }
     }
 }
