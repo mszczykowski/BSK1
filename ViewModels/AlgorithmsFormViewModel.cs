@@ -211,7 +211,7 @@ namespace BSK1.ViewModels
                     KeyErrorMessage = "Tu trzeba coś wpisać",
                     KeyName = "Potęgi",
                     AlgorithmType = AlgorithmType.Binary,
-                    KeyGenerator = new LFSR(UpdateGeneratedKey)
+                    KeyGenerator = new LFSR(UpdateGeneratedKey, this)
 
                 },
                 new AlgorithmViewModel
