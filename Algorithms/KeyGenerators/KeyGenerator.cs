@@ -49,7 +49,7 @@ namespace BSK1.Algorithms.KeyGenerators
             OnKeyUpdate();
         }
 
-        public void ClearKey()
+        public virtual void ClearKey()
         {
             key = "";
             OnKeyUpdate();
@@ -76,13 +76,5 @@ namespace BSK1.Algorithms.KeyGenerators
         public abstract void GenerateKeyElement();
 
         public abstract string GenerateKey(int keyLenght);
-
-        public static char XOR(char a, char b)
-        {
-            if (a == b)
-                return '0';
-            else
-                return '1';
-        }
     }
 }
