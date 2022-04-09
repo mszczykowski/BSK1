@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BSK1.Algorithms.BinaryAlgorithms
@@ -30,6 +31,8 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override bool IsKeyValid(string key)
         {
+            if (String.IsNullOrEmpty(key) || !Regex.IsMatch(key, @"^ *\d+ *(?:, *\d+ *)*$"))
+                return false;
             return true;
         }
     }
