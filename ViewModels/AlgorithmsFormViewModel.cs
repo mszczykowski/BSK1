@@ -208,7 +208,7 @@ namespace BSK1.ViewModels
                 {
                     Name = "Szyfr strumieniowy",
                     Algorithm = new StreamCipher(this),
-                    KeyErrorMessage = "Tu trzeba coś wpisać",
+                    KeyErrorMessage = "Podane potęgi są niepoprawne",
                     KeyName = "Potęgi",
                     AlgorithmType = AlgorithmType.Binary,
                     KeyGenerator = new LFSR(UpdateGeneratedKey, this)
@@ -317,7 +317,17 @@ namespace BSK1.ViewModels
             if (AlgorithmViewModel.KeyGenerator == null) return;
             if (!_algorithmViewModel.IsKeyValid(_keyInput)) return;
 
-            Polynominal = "tu trzeba aktualizować wielomian";
+            int[] powers = _keyInput.Replace(" ", string.Empty).Split(",").Select(int.Parse).Distinct().OrderBy(x => x).ToArray();
+            string text = $"1 + x^";
+            for (int i = 0; i < powers.Length; i++)
+            {
+                text += powers[i];
+
+                if (i < powers.Length - 1)
+                    text += " + x^";
+            }
+
+            Polynominal = text;
         }
 
         private void ClearKeyInputValidation()
