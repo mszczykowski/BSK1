@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSK1.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,15 @@ namespace BSK1.Algorithms.KeyGenerators
 
         public event EventHandler KeyUpdated;
 
+        protected AlgorithmsFormViewModel _viewModel;
 
-        public KeyGenerator(EventHandler KeyUpdatedEventHandler)
+
+        public KeyGenerator(EventHandler KeyUpdatedEventHandler, AlgorithmsFormViewModel viewModel)
         {
             isRunning = false;
 
             KeyUpdated += KeyUpdatedEventHandler;
+            _viewModel = viewModel;
         }
 
         public void StartGeneratingKey()
@@ -72,5 +76,13 @@ namespace BSK1.Algorithms.KeyGenerators
         public abstract void GenerateKeyElement();
 
         public abstract string GenerateKey(int keyLenght);
+
+        public static char XOR(char a, char b)
+        {
+            if (a == b)
+                return '0';
+            else
+                return '1';
+        }
     }
 }
