@@ -204,7 +204,7 @@ namespace BSK1.ViewModels
                 {
                     Name = "Szyfr strumieniowy",
                     Algorithm = new StreamCipher(this),
-                    KeyErrorMessage = "Podane potęgi są niepoprawne",
+                    KeyErrorMessage = "Potęgi muszą być w formacie: \"1, 2, 3, 4...\"",
                     KeyName = "Potęgi",
                     AlgorithmType = AlgorithmType.Binary,
                     KeyGenerator = new LFSR(UpdateGeneratedKey, this)
@@ -312,7 +312,9 @@ namespace BSK1.ViewModels
             if (AlgorithmViewModel.KeyGenerator == null) return;
             if (!_algorithmViewModel.IsKeyValid(_keyInput)) return;
 
-            int[] powers = _keyInput.Replace(" ", string.Empty).Split(",").Select(int.Parse).Distinct().OrderBy(x => x).ToArray();
+            string[] stringPowers = _keyInput.Replace(" ", string.Empty).Split(",");
+            int[] powers = Array.ConvertAll(stringPowers, s => int.TryParse(s, out var x) ? x : -1).OrderBy(x => x).ToArray();
+
             string text = $"1 + x^";
             for (int i = 0; i < powers.Length; i++)
             {

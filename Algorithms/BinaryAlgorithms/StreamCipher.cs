@@ -41,7 +41,16 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             if (String.IsNullOrEmpty(key) || !Regex.IsMatch(key, @"^ *\d+ *(?:, *\d+ *)*$"))
                 return false;
 
-            int[] powers = key.Replace(" ", string.Empty).Split(",").Select(int.Parse).Distinct().OrderBy(x => x).ToArray();
+
+            string[] stringPowers = key.Replace(" ", string.Empty).Split(",");
+            int[] powers = Array.ConvertAll(stringPowers, s => int.TryParse(s, out var x) ? x : -1).OrderBy(x => x).ToArray();
+
+            var duplicates = powers.GroupBy(x => x)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+            if (duplicates.Count > 0)
+                return false;
 
             if (powers.Any(x => x <= 0))
                 return false;
