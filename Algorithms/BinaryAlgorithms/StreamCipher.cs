@@ -17,15 +17,22 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override string Decrypt(string input)
         {
-            IKeyGenerator keyGenerator = _viewModel.AlgorithmViewModel.KeyGenerator;
-
-            string key = keyGenerator.GenerateKey(input.Length);
-            
-            return input;
+            return this.Encrypt(input);
         }
 
         public override string Encrypt(string input)
         {
+            IKeyGenerator keyGenerator = _viewModel.AlgorithmViewModel.KeyGenerator;
+
+            string key = keyGenerator.GenerateKey(input.Length);
+
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                string replacement = (input[i] ^ key[i]).ToString();
+                input = input.Remove(i, 1).Insert(i, replacement);
+            }
+
             return input;
         }
 
@@ -41,5 +48,6 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
             return true;
         }
+
     }
 }
