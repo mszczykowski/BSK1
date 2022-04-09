@@ -33,6 +33,12 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         {
             if (String.IsNullOrEmpty(key) || !Regex.IsMatch(key, @"^ *\d+ *(?:, *\d+ *)*$"))
                 return false;
+
+            int[] powers = key.Replace(" ", string.Empty).Split(",").Select(int.Parse).Distinct().OrderBy(x => x).ToArray();
+
+            if (powers.Any(x => x <= 0))
+                return false;
+
             return true;
         }
     }
