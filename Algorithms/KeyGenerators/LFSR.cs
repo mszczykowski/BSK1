@@ -91,13 +91,9 @@ namespace BSK1.Algorithms.KeyGenerators
             // 0, 0
             // 0
             int[] intElements = Array.ConvertAll(elements, c => (int)char.GetNumericValue(c));
-            int current = 0;
-            foreach (int value in intElements)
-            {
-                current ^= value;
-            }
+            int result = intElements.Aggregate((x, y) => x ^ y);
 
-            return current.ToString();
+            return result.ToString();
         }
     }
 }
