@@ -85,7 +85,7 @@ namespace BSK1.Commands
                 _viewModel.OutputFilePath = filePath;
                 _viewModel.OutputFileLinkVisible = true;
             }
-            else _viewModel.OutputText = Encoding.ASCII.GetString(output);
+            else _viewModel.OutputText = Encoding.Unicode.GetString(output);
         }
 
         protected void ClearOutput()
@@ -109,7 +109,7 @@ namespace BSK1.Commands
         {
             byte[] input;
             if (_viewModel.IsInputFile) input = fileService.GetBinaryData(_viewModel.FilePath);
-            else input = Encoding.ASCII.GetBytes(_viewModel.InputText);
+            else input = Encoding.Unicode.GetBytes(_viewModel.InputText);
 
             string output = Translate(ToBinary(input));
 
