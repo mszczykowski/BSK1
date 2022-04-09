@@ -24,7 +24,7 @@ namespace BSK1.Algorithms.KeyGenerators
                 GenerateKeyElement();
 
             ClearData();
-            return key;
+            return _key;
         }
 
         public override void GenerateKeyElement()
@@ -41,7 +41,7 @@ namespace BSK1.Algorithms.KeyGenerators
             char lastBit = Bits[Bits.Length - 1]; // Get last bit
             Bits = Bits.Remove(Bits.Length - 1); // Remove last bit from string
 
-            key += lastBit; // Return last string to key
+            _key += lastBit; // Return last string to key
         }
 
         public override void ClearKey()

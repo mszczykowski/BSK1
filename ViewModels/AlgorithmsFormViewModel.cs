@@ -143,6 +143,7 @@ namespace BSK1.ViewModels
             set
             {
                 _polynominal = value;
+                ClearGeneratedKeyWhenPolynominalChanged();
                 OnPropertyChanged(nameof(Polynominal));
             }
         }
@@ -166,14 +167,9 @@ namespace BSK1.ViewModels
 
         public ICommand StopGeneratingKeyCommand { get; }
 
-        public ICommand ClearKeyCommand { get; }
-
 
         public AlgorithmsFormViewModel()
         {
-
-            ClearKeyCommand = new ClearKeyCommand(this);
-
             GenerateKeyCommand = new GenerateKeyCommand(this);
 
             StopGeneratingKeyCommand = new StopGeneratingKeyCommand(this);
@@ -279,7 +275,6 @@ namespace BSK1.ViewModels
                 {
                     if(algorithm.KeyGenerator != null)
                     {
-                        algorithm.KeyGenerator.StopGeneratingKey();
                         algorithm.KeyGenerator.ClearKey();
                     }
                 });
@@ -348,6 +343,11 @@ namespace BSK1.ViewModels
                 GeneratedKey = generator.Key;
             });
             
+        }
+
+        private void ClearGeneratedKeyWhenPolynominalChanged()
+        {
+            if(_algorithmViewModel.KeyGenerator != null) _algorithmViewModel.KeyGenerator.ClearKey();
         }
     }
 }

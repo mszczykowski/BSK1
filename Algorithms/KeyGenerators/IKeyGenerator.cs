@@ -8,7 +8,8 @@ namespace BSK1.Algorithms.KeyGenerators
 {
     internal interface IKeyGenerator
     {
-        public string Key { get; }
+        string Key { get; }
+        bool IsRunning { get; }
         void StartGeneratingKey();
 
         void StopGeneratingKey();

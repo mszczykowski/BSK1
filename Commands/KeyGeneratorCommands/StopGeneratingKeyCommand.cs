@@ -13,6 +13,11 @@ namespace BSK1.Commands.KeyGeneratorCommands
         {
         }
 
+        public override bool CanExecute(object? parameter)
+        {
+            return base.CanExecute(parameter) && _algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.IsRunning;
+        }
+
         public override void Execute(object? parameter)
         {
             _algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.StopGeneratingKey();

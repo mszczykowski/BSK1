@@ -10,12 +10,13 @@ namespace BSK1.Algorithms.KeyGenerators
 {
     internal abstract class KeyGenerator: IKeyGenerator
     {
-        public string Key => key;
+        public string Key => _key;
+        public bool IsRunning => _isRunning;
 
-        protected string key;
+        protected string _key;
 
         private static Thread thread;
-        private static bool isRunning;
+        private static bool _isRunning;
 
         public event EventHandler KeyUpdated;
 
@@ -24,7 +25,7 @@ namespace BSK1.Algorithms.KeyGenerators
 
         public KeyGenerator(EventHandler KeyUpdatedEventHandler, AlgorithmsFormViewModel viewModel)
         {
-            isRunning = false;
+            _isRunning = false;
 
             KeyUpdated += KeyUpdatedEventHandler;
             _viewModel = viewModel;
@@ -38,26 +39,27 @@ namespace BSK1.Algorithms.KeyGenerators
 
                 thread.IsBackground = true;
 
-                isRunning = true;
+                _isRunning = true;
                 thread.Start();
             }
         }
 
         public void StopGeneratingKey()
         {
-            isRunning = false;
+            _isRunning = false;
             OnKeyUpdate();
         }
 
         public virtual void ClearKey()
         {
-            key = "";
+            _isRunning = false;
+            _key = "";
             OnKeyUpdate();
         }
 
         private void Run()
         {
-            while(isRunning)
+            while(_isRunning)
             {
                 GenerateKeyElement();
                 

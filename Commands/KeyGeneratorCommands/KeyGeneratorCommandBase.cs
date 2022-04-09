@@ -21,7 +21,7 @@ namespace BSK1.Commands.KeyGeneratorCommands
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AlgorithmViewModel)) OnCanExecuteChanged();
+            if (e.PropertyName == nameof(AlgorithmViewModel) || e.PropertyName == nameof(AlgorithmsFormViewModel.GeneratedKey)) OnCanExecuteChanged();
         }
 
         public override bool CanExecute(object? parameter)
