@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BSK1.Views"
+             xmlns:local="clr-namespace:BSK1.Views" xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900">
     <Grid>
@@ -132,7 +132,7 @@
                 </Grid>
             </GroupBox>
 
-
+            <loadingspinnercontrol:LoadingSpinner Grid.Row="0" Grid.Column="1" Thickness="5" Color="Gray" Diameter="70" IsLoading="{Binding IsLoading}" Margin="0 0 0 60"/>
 
             <GroupBox Grid.Row="0" Grid.Column="1" Header="Dane wyjściowe" Margin="5" Padding="5">
                 <Grid>
@@ -173,8 +173,10 @@
 
                 <Button Content="Deszyfruj" Grid.ColumnSpan="2" Margin="15 0 0 0"
                         Command="{Binding DecryptCommand}"/>
-            </StackPanel>
 
+                
+            </StackPanel>
+            
 
         </Grid>
 

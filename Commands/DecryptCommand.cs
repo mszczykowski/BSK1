@@ -20,9 +20,12 @@ namespace BSK1.Commands
             base.Execute(parameter);
         }
 
-        public override string Translate(string input)
+        public override async Task Translate()
         {
-            return _viewModel.AlgorithmViewModel.Algorithm.Decrypt(input);
+            await Task.Run(() =>
+            {
+                output = _viewModel.AlgorithmViewModel.Algorithm.Decrypt(input);
+            });
         }
     }
 }

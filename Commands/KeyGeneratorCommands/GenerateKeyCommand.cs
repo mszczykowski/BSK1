@@ -14,17 +14,17 @@ namespace BSK1.Commands.KeyGeneratorCommands
         }
         public override bool CanExecute(object? parameter)
         {
-            return base.CanExecute(parameter) && !_algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.IsRunning;
+            return base.CanExecute(parameter) && !_viewModel.AlgorithmViewModel.KeyGenerator.IsRunning;
         }
 
         public override void Execute(object? parameter)
         {
-            _algorithmsFormViewModel.ValidateKey();
-            if (!_algorithmsFormViewModel.AlgorithmViewModel.IsKeyValid(_algorithmsFormViewModel.KeyInput)) return;
+            _viewModel.ValidateKey();
+            if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput)) return;
 
 
-            _algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.ClearKey();
-            _algorithmsFormViewModel.AlgorithmViewModel.KeyGenerator.StartGeneratingKey();
+            _viewModel.AlgorithmViewModel.KeyGenerator.ClearKey();
+            _viewModel.AlgorithmViewModel.KeyGenerator.StartGeneratingKey();
         }
     }
 }

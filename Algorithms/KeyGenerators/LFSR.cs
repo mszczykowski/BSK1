@@ -24,6 +24,7 @@ namespace BSK1.Algorithms.KeyGenerators
                 GenerateKeyElement();
 
             ClearData();
+            OnKeyUpdate();
             return _key;
         }
 

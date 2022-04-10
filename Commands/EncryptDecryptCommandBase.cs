@@ -14,12 +14,15 @@ using System.Windows;
 
 namespace BSK1.Commands
 {
-    internal abstract class EncryptDecryptCommandBase : CommandBase
+    internal abstract class EncryptDecryptCommandBase : AsyncCommandBase
     {
         protected AlgorithmsFormViewModel _viewModel;
 
         protected FileService fileService;
 
+        protected string input;
+
+        protected string output;
 
         public EncryptDecryptCommandBase(AlgorithmsFormViewModel viewModel)
         {
@@ -37,35 +40,47 @@ namespace BSK1.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            if (_viewModel.IsInputFile) return !String.IsNullOrEmpty(_viewModel.FilePath);
+            bool isInputEmpty = true;
 
-            else return !String.IsNullOrEmpty(_viewModel.InputText);
+            if (_viewModel.IsInputFile) isInputEmpty = String.IsNullOrEmpty(_viewModel.FilePath);
+
+            else isInputEmpty = String.IsNullOrEmpty(_viewModel.InputText);
+
+            return !isInputEmpty && !_viewModel.IsLoading && base.CanExecute(parameter);
         }
 
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
-            ClearOutput();
+            _viewModel.ClearOutput();
+
+            _viewModel.AlgorithmViewModel.KeyGenerator.ClearKey();
 
             _viewModel.ValidateKey();
 
 
             if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput)) return;
 
+            _viewModel.IsLoading = true;
 
             switch (_viewModel.AlgorithmViewModel.AlgorithmType)
             {
                 case AlgorithmType.Text:
-                    SetUpForText();
+                    SetInputForText();
+                    await Translate();
+                    SetOutputText();
                     break;
                 case AlgorithmType.Binary:
-                    SetUpForBinary();
+                    SetInputForBinary();
+                    await Translate();
+                    SetOutputBinary();
                     break;
             }
+            _viewModel.IsLoading = false;
         }
 
-        public abstract string Translate(string input);
+        public abstract Task Translate();
 
-        protected void SetOutput(string output)
+        protected void SetOutputText()
         {
             if (_viewModel.IsInputFile)
             {
@@ -77,43 +92,35 @@ namespace BSK1.Commands
             else _viewModel.OutputText = output;
         }
 
-        protected void SetOutput(byte[] output)
+        protected void SetOutputBinary()
         {
+            byte[] outputByte = ToByte(output);
+            
             if (_viewModel.IsInputFile)
             {
-                var filePath = fileService.SaveBytesToFile(_viewModel.FilePath, output);
+                var filePath = fileService.SaveBytesToFile(_viewModel.FilePath, outputByte);
                 _viewModel.OutputFilePath = filePath;
                 _viewModel.OutputFileLinkVisible = true;
             }
-            else _viewModel.OutputText = Encoding.Unicode.GetString(output);
+            else _viewModel.OutputText = Encoding.Unicode.GetString(outputByte);
         }
 
-        protected void ClearOutput()
-        {
-            _viewModel.OutputFileLinkVisible = false;
-            _viewModel.OutputText = "";
-        }
-
-        private void SetUpForText()
+        private void SetInputForText()
         {
             string inputUnnormalised;
             if (_viewModel.IsInputFile) inputUnnormalised = fileService.GetStringFromFile(_viewModel.FilePath);
             else inputUnnormalised = _viewModel.InputText;
 
-            var input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
-
-            SetOutput(Translate(input));
+            input = new string(inputUnnormalised.ToUpper().Where(c => Char.IsLetter(c)).ToArray());
         }
 
-        private void SetUpForBinary()
+        private void SetInputForBinary()
         {
-            byte[] input;
-            if (_viewModel.IsInputFile) input = fileService.GetBinaryData(_viewModel.FilePath);
-            else input = Encoding.Unicode.GetBytes(_viewModel.InputText);
+            byte[] byteInput;
+            if (_viewModel.IsInputFile) byteInput = fileService.GetBinaryData(_viewModel.FilePath);
+            else byteInput = Encoding.Unicode.GetBytes(_viewModel.InputText);
 
-            string output = Translate(ToBinary(input));
-
-            SetOutput(ToByte(output));
+            input = ToBinary(byteInput);
         }
 
         public String ToBinary(Byte[] data)

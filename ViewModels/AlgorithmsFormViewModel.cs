@@ -148,6 +148,17 @@ namespace BSK1.ViewModels
             }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+
         private ICollection<AlgorithmViewModel> _algorithmsList;
 
         public ICollection<AlgorithmViewModel> AlgorithmsList => _algorithmsList;
@@ -267,8 +278,7 @@ namespace BSK1.ViewModels
             {
                 ParametersLabel = _algorithmViewModel.KeyName + ":";
                 ClearKeyInputValidation();
-                OutputFileLinkVisible = false;
-                OutputText = "";
+                ClearOutput();
                 FilePath = "";
 
                 _algorithmsList.ToList().ForEach(algorithm =>
@@ -279,6 +289,12 @@ namespace BSK1.ViewModels
                     }
                 });
             }
+        }
+
+        public void ClearOutput()
+        {
+            OutputFileLinkVisible = false;
+            OutputText = "";
         }
 
 

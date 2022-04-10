@@ -70,7 +70,7 @@ namespace BSK1.Algorithms.KeyGenerators
             thread.Interrupt();
         }
 
-        private void OnKeyUpdate()
+        protected void OnKeyUpdate()
         {
             KeyUpdated?.Invoke(this, EventArgs.Empty);
         }
