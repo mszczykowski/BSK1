@@ -61,6 +61,8 @@ namespace BSK1.Commands
 
             if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput)) return;
 
+            if (_viewModel.AlgorithmViewModel.KeyGenerator != null) _viewModel.AlgorithmViewModel.KeyGenerator.StopGeneratingKey();
+
             _viewModel.IsLoading = true;
 
             switch (_viewModel.AlgorithmViewModel.AlgorithmType)
