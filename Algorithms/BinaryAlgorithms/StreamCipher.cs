@@ -20,9 +20,13 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             string key = _viewModel.BinaryKey;
 
 
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0, j = 0; i < input.Length; i++, j++)
             {
-                string replacement = (input[i] ^ key[i]).ToString();
+                if (j == key.Length)
+                {
+                    j = 0;
+                }
+                string replacement = (input[i] ^ key[j]).ToString();
                 input = input.Remove(i, 1).Insert(i, replacement);
             }
 
