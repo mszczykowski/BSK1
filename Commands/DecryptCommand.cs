@@ -1,4 +1,5 @@
 ﻿using BSK1.Algorithms;
+using BSK1.Algorithms.BinaryAlgorithms;
 using BSK1.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,15 @@ namespace BSK1.Commands
 
         public override void Execute(object? parameter)
         {
+            if(_viewModel.AlgorithmViewModel.Algorithm is StreamCipher)
+            {
+                var steramChiper = _viewModel.AlgorithmViewModel.Algorithm as StreamCipher;
+
+                _viewModel.ValidateBinaryKey();
+
+                steramChiper.IsBinaryKeyValid(_viewModel.BinaryKey);
+            }
+            
             base.Execute(parameter);
         }
 

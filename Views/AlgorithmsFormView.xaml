@@ -63,7 +63,7 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox Grid.Row="1" Grid.Column="0" Header="Generator klucza" Margin="5 0 5 10" Padding="5" Grid.ColumnSpan="2"
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="Klucz binarny" Margin="5 0 5 10" Padding="5" Grid.ColumnSpan="2"
                       Visibility="{Binding IsKeyGeneratorVisible, Converter={StaticResource BoolToVis}}">
                 <Grid Grid.IsSharedSizeScope="True" >
                     <Grid.RowDefinitions>
@@ -94,8 +94,8 @@
 
                         <TextBlock Grid.Column="0" Text="Klucz:"/>
 
-                        <TextBox Grid.Column="1" IsReadOnly="True" Margin="0" 
-                                 VerticalScrollBarVisibility="Auto" Text="{Binding GeneratedKey}"
+                        <TextBox Grid.Column="1" Margin="0 0 0 15" 
+                                 VerticalScrollBarVisibility="Auto" Text="{Binding BinaryKey, UpdateSourceTrigger=PropertyChanged}"
                                  TextWrapping="Wrap" Name="GeneratedKeyTextBox" TextChanged="GeneratedKeyTextBox_TextChanged"/>
 
 

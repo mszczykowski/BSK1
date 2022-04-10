@@ -38,8 +38,6 @@ namespace BSK1.Commands
 
             if (_viewModel.OutputFileLinkVisible)
                 _viewModel.FilePath = _viewModel.OutputFilePath;
-
-            if(_viewModel.GeneratedKey != null) _viewModel.KeyInput = _viewModel.GeneratedKey;
         }
     }
 }

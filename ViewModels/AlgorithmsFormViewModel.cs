@@ -126,14 +126,15 @@ namespace BSK1.ViewModels
             }
         }
 
-        private string _generatedKey;
-        public string GeneratedKey
+        private string _binaryKey;
+        public string BinaryKey
         {
-            get => _generatedKey;
+            get => _binaryKey;
             set
             {
-                _generatedKey = value;
-                OnPropertyChanged(nameof(GeneratedKey));
+                _binaryKey = value;
+                ValidateBinaryKey();
+                OnPropertyChanged(nameof(BinaryKey));
             }
         }
 
@@ -347,6 +348,18 @@ namespace BSK1.ViewModels
             else if(!_algorithmViewModel.IsKeyValid(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), _algorithmViewModel.KeyErrorMessage);
         }
 
+        public void ValidateBinaryKey()
+        {
+            _errorsViewModel.ClearErrors(nameof(BinaryKey));
+
+            if (String.IsNullOrEmpty(_binaryKey)) _errorsViewModel.AddError(nameof(BinaryKey), "Klucz nie może być pusty");
+            else
+            {
+                var steramCipher = _algorithmViewModel.Algorithm as StreamCipher;
+                if (!steramCipher.IsBinaryKeyValid(_binaryKey)) _errorsViewModel.AddError(nameof(BinaryKey), "Klucz musi mieć postać binarną");
+            }
+        }
+
         public void UpdatePolynominal()
         {
             if (AlgorithmViewModel.KeyGenerator == null) return;
@@ -370,6 +383,7 @@ namespace BSK1.ViewModels
         private void ClearKeyInputValidation()
         {
             _errorsViewModel.ClearErrors(nameof(KeyInput));
+            _errorsViewModel.ClearErrors(nameof(BinaryKey));
         }
 
         public static void UiInvoke(Action a)
@@ -382,7 +396,7 @@ namespace BSK1.ViewModels
             UiInvoke(() =>
             {
                 var generator = sender as IKeyGenerator;
-                GeneratedKey = generator.Key;
+                BinaryKey = generator.Key;
             });
             
         }

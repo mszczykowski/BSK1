@@ -17,7 +17,7 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override string Decrypt(string input)
         {
-            string key = _viewModel.KeyInput;
+            string key = _viewModel.BinaryKey;
 
 
             for (int i = 0; i < input.Length; i++)
@@ -67,5 +67,13 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             return true;
         }
 
+
+        public bool IsBinaryKeyValid(string key)
+        {
+            if (String.IsNullOrEmpty(key) || !Regex.IsMatch(key, "^[01]+$"))
+                return false;
+
+            return true;
+        }
     }
 }
