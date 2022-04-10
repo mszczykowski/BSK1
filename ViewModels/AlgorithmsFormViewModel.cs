@@ -133,7 +133,6 @@ namespace BSK1.ViewModels
             set
             {
                 _binaryKey = value;
-                ValidateBinaryKey();
                 OnPropertyChanged(nameof(BinaryKey));
             }
         }
@@ -169,6 +168,18 @@ namespace BSK1.ViewModels
             {
                 _isKeyGeneratorVisible = value;
                 OnPropertyChanged(nameof(IsKeyGeneratorVisible));
+            }
+        }
+        
+        private string _seed;
+        public string Seed
+        {
+            get => _seed;
+            set
+            {
+                _seed = value;
+                ValidateSeed();
+                OnPropertyChanged(nameof(Seed));
             }
         }
 
@@ -348,15 +359,15 @@ namespace BSK1.ViewModels
             else if(!_algorithmViewModel.IsKeyValid(_keyInput)) _errorsViewModel.AddError(nameof(KeyInput), _algorithmViewModel.KeyErrorMessage);
         }
 
-        public void ValidateBinaryKey()
+        public void ValidateSeed()
         {
-            _errorsViewModel.ClearErrors(nameof(BinaryKey));
+            _errorsViewModel.ClearErrors(nameof(Seed));
 
-            if (String.IsNullOrEmpty(_binaryKey)) _errorsViewModel.AddError(nameof(BinaryKey), "Klucz nie może być pusty");
+            if (String.IsNullOrEmpty(_seed)) _errorsViewModel.AddError(nameof(Seed), "Ziarno nie może być puste przy deszyfrowaniu");
             else
             {
                 var steramCipher = _algorithmViewModel.Algorithm as StreamCipher;
-                if (!steramCipher.IsBinaryKeyValid(_binaryKey)) _errorsViewModel.AddError(nameof(BinaryKey), "Klucz musi mieć postać binarną");
+                if (!steramCipher.IsSeedValid(_seed)) _errorsViewModel.AddError(nameof(Seed), "Ziarno musi mieć postać binarną");
             }
         }
 
@@ -383,7 +394,7 @@ namespace BSK1.ViewModels
         private void ClearKeyInputValidation()
         {
             _errorsViewModel.ClearErrors(nameof(KeyInput));
-            _errorsViewModel.ClearErrors(nameof(BinaryKey));
+            _errorsViewModel.ClearErrors(nameof(Seed));
         }
 
         public static void UiInvoke(Action a)
@@ -406,7 +417,7 @@ namespace BSK1.ViewModels
             if(_algorithmViewModel.KeyGenerator != null)
             {
                 _algorithmViewModel.KeyGenerator.ClearKey();
-                _errorsViewModel.ClearErrors(nameof(BinaryKey));
+                _errorsViewModel.ClearErrors(nameof(Seed));
             }
         }
     }

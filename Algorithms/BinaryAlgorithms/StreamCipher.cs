@@ -17,23 +17,15 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override string Decrypt(string input)
         {
-            string key = _viewModel.BinaryKey;
-
-
-            for (int i = 0, j = 0; i < input.Length; i++, j++)
-            {
-                if (j == key.Length)
-                {
-                    j = 0;
-                }
-                string replacement = (input[i] ^ key[j]).ToString();
-                input = input.Remove(i, 1).Insert(i, replacement);
-            }
-
-            return input;
+            return Translate(input);
         }
 
         public override string Encrypt(string input)
+        {
+            return Translate(input);
+        }
+
+        private string Translate(string input)
         {
             IKeyGenerator keyGenerator = _viewModel.AlgorithmViewModel.KeyGenerator;
 
@@ -72,9 +64,9 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         }
 
 
-        public bool IsBinaryKeyValid(string key)
+        public bool IsSeedValid(string seed)
         {
-            if (String.IsNullOrEmpty(key) || !Regex.IsMatch(key, "^[01]+$"))
+            if (String.IsNullOrEmpty(seed) || !Regex.IsMatch(seed, "^[01]+$"))
                 return false;
 
             return true;

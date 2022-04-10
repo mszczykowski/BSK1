@@ -22,9 +22,10 @@ namespace BSK1.Commands
             {
                 var steramChiper = _viewModel.AlgorithmViewModel.Algorithm as StreamCipher;
 
-                _viewModel.ValidateBinaryKey();
+                _viewModel.ValidateSeed();
+                _viewModel.ValidateKey();
 
-                steramChiper.IsBinaryKeyValid(_viewModel.BinaryKey);
+                if (!steramChiper.IsSeedValid(_viewModel.Seed)) return;
             }
             
             base.Execute(parameter);

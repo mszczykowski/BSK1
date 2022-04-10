@@ -23,6 +23,8 @@ namespace BSK1.Commands.KeyGeneratorCommands
             if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput)) return;
 
             _viewModel.AlgorithmViewModel.KeyGenerator.StartGeneratingKey();
+
+            _viewModel.Seed = _viewModel.AlgorithmViewModel.KeyGenerator.Seed;
         }
     }
 }

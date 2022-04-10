@@ -13,7 +13,11 @@ namespace BSK1.Algorithms.KeyGenerators
         public string Key => _key;
         public bool IsRunning => _isRunning;
 
+        public string Seed => _seed;
+
         protected string _key;
+
+        protected string _seed;
 
         private static Thread thread;
         private static bool _isRunning;

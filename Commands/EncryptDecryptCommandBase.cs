@@ -78,6 +78,9 @@ namespace BSK1.Commands
                     SetOutputBinary();
                     break;
             }
+
+            if (_viewModel.AlgorithmViewModel.KeyGenerator != null) _viewModel.Seed = _viewModel.AlgorithmViewModel.KeyGenerator.Seed;
+
             _viewModel.IsLoading = false;
         }
 

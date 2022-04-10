@@ -10,8 +10,8 @@ namespace BSK1.Algorithms.KeyGenerators
 {
     internal class LFSR : KeyGenerator
     {
-        private string Bits;
-        private int[] Powers;
+        private int[] powers;
+        private string seed;
 
         public LFSR(EventHandler KeyUpdatedEventHandler, AlgorithmsFormViewModel viewModel) : base(KeyUpdatedEventHandler, viewModel)
         {
@@ -23,64 +23,79 @@ namespace BSK1.Algorithms.KeyGenerators
             for (int i = 0; i < keyLenght; i++)
                 GenerateKeyElement();
 
-            ClearData();
             OnKeyUpdate();
             return _key;
         }
 
         public override void GenerateKeyElement()
         {
-            if (Bits == null || Powers == null)
+            if (_seed == null || powers == null)
                 Initialize(_viewModel.KeyInput);
 
-            char[] powersBits = new char[Powers.Length];
-            for (int i = 0; i < Powers.Length; i++) // Get bits of given powers
-                powersBits[i] = Bits[Powers[i] - 1];
+
+            char[] powersBits = new char[powers.Length];
+            for (int i = 0; i < powers.Length; i++) // Get bits of given powers
+                powersBits[i] = seed[powers[i] - 1];
 
             string newBit = XORArray(powersBits);
-            Bits = Bits.Insert(0, newBit); // Add new bit at the beginning
-            char lastBit = Bits[Bits.Length - 1]; // Get last bit
-            Bits = Bits.Remove(Bits.Length - 1); // Remove last bit from string
+            seed = seed.Insert(0, newBit); // Add new bit at the beginning
+            char lastBit = seed[seed.Length - 1]; // Get last bit
+            seed = seed.Remove(seed.Length - 1); // Remove last bit from string
 
             _key += lastBit; // Return last string to key
         }
 
-        public override void ClearKey()
-        {
-            base.ClearKey();
-
-            ClearData();
-        }
-
-        private void ClearData()
-        {
-            Bits = null;
-            Powers = null;
-        }
 
         // Seting Powers and random Bits
-        private void Initialize(string powers)
+        private void Initialize(string powersText)
         {
             _key = "";
 
-            string[] stringPowers = powers.Replace(" ", string.Empty).Split(","); // Clear spaces, divide by every comma
-            Powers = Array.ConvertAll(stringPowers, s => int.TryParse(s, out var x) ? x : -1).OrderBy(x => x).ToArray(); // convert to int[] array
-            Bits = GenerateRandomBits(Powers.Max()); // Generate random bits of max power length
+            string[] stringPowers = powersText.Replace(" ", string.Empty).Split(","); // Clear spaces, divide by every comma
+            
+            powers = Array.ConvertAll(stringPowers, s => int.TryParse(s, out var x) ? x : -1).OrderBy(x => x).ToArray(); // convert to int[] array
+
+            if (String.IsNullOrEmpty(_viewModel.Seed))
+            {
+                _seed = GenerateSeed(powers.Max());
+            }
+
+            else _seed = _viewModel.Seed;
+
+            SeedExtend(powers.Max());
+
+            seed = new string(_seed);
         }
 
         // Generating random string of bits of specific length
-        private string GenerateRandomBits(int length)
+        private string GenerateSeed(int length)
         {
-            string bits = "";
+            string seed = "";
             Random rand = new Random();
             for (int i = 0; i < length; i++)
             {
                 if (rand.Next(0, 2) == 0)
-                    bits += "0";
+                    seed += "0";
                 else
-                    bits += "1";
+                    seed += "1";
             }
-            return bits;
+            return seed;
+        }
+
+
+        private void SeedExtend(int length)
+        {
+            int originalSeeedLenght = _seed.Length;
+            for (int i = _seed.Length, j = 0; i < length; i++, j++)
+            {
+                if(j >= originalSeeedLenght)
+                {
+                    j = 0;
+                }
+
+                _seed += _seed[j];
+                
+            }
         }
 
         /// <summary>
