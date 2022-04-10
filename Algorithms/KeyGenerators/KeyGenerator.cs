@@ -33,6 +33,8 @@ namespace BSK1.Algorithms.KeyGenerators
 
         public void StartGeneratingKey()
         {
+            ClearKey();
+
             if(thread == null || !thread.IsAlive)
             {
                 thread = new Thread(new ThreadStart(Run));
