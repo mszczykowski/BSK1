@@ -22,8 +22,6 @@ namespace BSK1.Commands.KeyGeneratorCommands
             _viewModel.ValidateKey();
             if (!_viewModel.AlgorithmViewModel.IsKeyValid(_viewModel.KeyInput)) return;
 
-
-            _viewModel.AlgorithmViewModel.KeyGenerator.ClearKey();
             _viewModel.AlgorithmViewModel.KeyGenerator.StartGeneratingKey();
         }
     }

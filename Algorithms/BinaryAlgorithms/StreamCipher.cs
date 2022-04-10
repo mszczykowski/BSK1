@@ -17,7 +17,16 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override string Decrypt(string input)
         {
-            return this.Encrypt(input);
+            string key = _viewModel.KeyInput;
+
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                string replacement = (input[i] ^ key[i]).ToString();
+                input = input.Remove(i, 1).Insert(i, replacement);
+            }
+
+            return input;
         }
 
         public override string Encrypt(string input)

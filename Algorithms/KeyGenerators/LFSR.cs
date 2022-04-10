@@ -61,6 +61,8 @@ namespace BSK1.Algorithms.KeyGenerators
         // Seting Powers and random Bits
         private void Initialize(string powers)
         {
+            _key = "";
+
             string[] stringPowers = powers.Replace(" ", string.Empty).Split(","); // Clear spaces, divide by every comma
             Powers = Array.ConvertAll(stringPowers, s => int.TryParse(s, out var x) ? x : -1).OrderBy(x => x).ToArray(); // convert to int[] array
             Bits = GenerateRandomBits(Powers.Max()); // Generate random bits of max power length

@@ -11,13 +11,13 @@ namespace BSK1.Commands
 {
     internal class CopyOutputToInputCommand : CommandBase
     {
-        private AlgorithmsFormViewModel _moduleBaseViewModel;
+        private AlgorithmsFormViewModel _viewModel;
 
-        public CopyOutputToInputCommand(AlgorithmsFormViewModel moduleBaseViewModel)
+        public CopyOutputToInputCommand(AlgorithmsFormViewModel viewModel)
         {
-            _moduleBaseViewModel = moduleBaseViewModel;
+            _viewModel = viewModel;
 
-            _moduleBaseViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            _viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -27,16 +27,19 @@ namespace BSK1.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return (!String.IsNullOrEmpty(_moduleBaseViewModel.OutputText) || _moduleBaseViewModel.OutputFileLinkVisible)
+            return (!String.IsNullOrEmpty(_viewModel.OutputText) || _viewModel.OutputFileLinkVisible)
                 && base.CanExecute(parameter);
         }
 
         public override void Execute(object? parameter)
         {
-            if(!String.IsNullOrEmpty(_moduleBaseViewModel.OutputText)) 
-                _moduleBaseViewModel.InputText = _moduleBaseViewModel.OutputText;
-            if (_moduleBaseViewModel.OutputFileLinkVisible)
-                _moduleBaseViewModel.FilePath = _moduleBaseViewModel.OutputFilePath;
+            if(!String.IsNullOrEmpty(_viewModel.OutputText)) 
+                _viewModel.InputText = _viewModel.OutputText;
+
+            if (_viewModel.OutputFileLinkVisible)
+                _viewModel.FilePath = _viewModel.OutputFilePath;
+
+            if(_viewModel.GeneratedKey != null) _viewModel.KeyInput = _viewModel.GeneratedKey;
         }
     }
 }
