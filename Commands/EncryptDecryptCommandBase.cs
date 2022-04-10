@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -23,6 +24,8 @@ namespace BSK1.Commands
         protected string input;
 
         protected string output;
+
+        protected bool outShouldBeBinary;
 
         public EncryptDecryptCommandBase(AlgorithmsFormViewModel viewModel)
         {
@@ -52,8 +55,6 @@ namespace BSK1.Commands
         public override async Task ExecuteAsync(object? parameter)
         {
             _viewModel.ClearOutput();
-
-            _viewModel.AlgorithmViewModel.KeyGenerator.ClearKey();
 
             _viewModel.ValidateKey();
 
@@ -95,14 +96,18 @@ namespace BSK1.Commands
         protected void SetOutputBinary()
         {
             byte[] outputByte = ToByte(output);
-            
+
             if (_viewModel.IsInputFile)
             {
                 var filePath = fileService.SaveBytesToFile(_viewModel.FilePath, outputByte);
                 _viewModel.OutputFilePath = filePath;
                 _viewModel.OutputFileLinkVisible = true;
             }
-            else _viewModel.OutputText = Encoding.Unicode.GetString(outputByte);
+            else
+            {
+                if(outShouldBeBinary) _viewModel.OutputText = ToBinary(outputByte);
+                else _viewModel.OutputText = Encoding.Unicode.GetString(outputByte);
+            }
         }
 
         private void SetInputForText()
@@ -118,9 +123,15 @@ namespace BSK1.Commands
         {
             byte[] byteInput;
             if (_viewModel.IsInputFile) byteInput = fileService.GetBinaryData(_viewModel.FilePath);
-            else byteInput = Encoding.Unicode.GetBytes(_viewModel.InputText);
-
-            input = ToBinary(byteInput);
+            else
+            {
+                if (Regex.IsMatch(_viewModel.InputText, "^[01]+$")) input = _viewModel.InputText;
+                else
+                {
+                    byteInput = Encoding.Unicode.GetBytes(_viewModel.InputText);
+                    input = ToBinary(byteInput);
+                }
+            }
         }
 
         public String ToBinary(Byte[] data)

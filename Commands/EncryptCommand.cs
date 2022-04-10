@@ -21,6 +21,7 @@ namespace BSK1.Commands
 
         public override async Task Translate()
         {
+            outShouldBeBinary = true;
             await Task.Run(() =>
             {
                 output = _viewModel.AlgorithmViewModel.Algorithm.Encrypt(input);

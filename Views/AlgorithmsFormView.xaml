@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BSK1.Views" xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900">
+             d:DesignHeight="700" d:DesignWidth="900">
     <Grid>
         
         <Grid.RowDefinitions>
@@ -63,8 +63,9 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox Grid.Row="1" Grid.Column="0" Header="Generator klucza" Margin="5 0 5 10" Padding="5" Grid.ColumnSpan="2">
-                <Grid Grid.IsSharedSizeScope="True">
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="Generator klucza" Margin="5 0 5 10" Padding="5" Grid.ColumnSpan="2"
+                      Visibility="{Binding IsKeyGeneratorVisible, Converter={StaticResource BoolToVis}}">
+                <Grid Grid.IsSharedSizeScope="True" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
@@ -78,7 +79,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="0 0 5 10" Text="Wielomian: " VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1" Text="{Binding Polynominal}" Margin="0 0 0 10" VerticalAlignment="Center"/>
-                        
+
                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                             <Button Content="Generuj" Margin="0 5 5 10" Command="{Binding GenerateKeyCommand}"/>
                             <Button Content="Zatrzymaj" Margin="0 5 0 10" Command="{Binding StopGeneratingKeyCommand}"/>
@@ -100,8 +101,8 @@
 
                     </Grid>
                 </Grid>
-                
             </GroupBox>
+
 
             <GroupBox Grid.Row="2" Grid.Column="0" Header="Opcje" Margin="5 0 5 10" Padding="5">
                 <Grid>

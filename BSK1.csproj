@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="LoadingSpinner.WPF" Version="1.0.0" />
+    <PackageReference Include="Shamork.Util.StringSubSupExtension" Version="1.0.3" />
   </ItemGroup>
 
 </Project>

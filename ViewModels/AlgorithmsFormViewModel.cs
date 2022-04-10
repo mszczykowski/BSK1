@@ -15,6 +15,7 @@ using BSK1.Commands;
 using BSK1.Commands.KeyGeneratorCommands;
 using BSK1.Enums;
 using BSK1.Services;
+using Shamork.Util;
 
 namespace BSK1.ViewModels
 {
@@ -159,6 +160,18 @@ namespace BSK1.ViewModels
             }
         }
 
+        private bool _isKeyGeneratorVisible;
+        public bool IsKeyGeneratorVisible
+        {
+            get => _isKeyGeneratorVisible;
+            set
+            {
+                _isKeyGeneratorVisible = value;
+                OnPropertyChanged(nameof(IsKeyGeneratorVisible));
+            }
+        }
+
+
         private ICollection<AlgorithmViewModel> _algorithmsList;
 
         public ICollection<AlgorithmViewModel> AlgorithmsList => _algorithmsList;
@@ -276,18 +289,9 @@ namespace BSK1.ViewModels
         {
             if (e.PropertyName == nameof(AlgorithmViewModel))
             {
-                ParametersLabel = _algorithmViewModel.KeyName + ":";
+                Initialise();
                 ClearKeyInputValidation();
                 ClearOutput();
-                FilePath = "";
-
-                _algorithmsList.ToList().ForEach(algorithm =>
-                {
-                    if(algorithm.KeyGenerator != null)
-                    {
-                        algorithm.KeyGenerator.ClearKey();
-                    }
-                });
             }
         }
 
@@ -295,6 +299,26 @@ namespace BSK1.ViewModels
         {
             OutputFileLinkVisible = false;
             OutputText = "";
+        }
+
+        private void Initialise()
+        {
+            FilePath = "";
+            KeyInput = "";
+            Polynominal = "";
+            ParametersLabel = _algorithmViewModel.KeyName + ":";
+
+
+            if (_algorithmViewModel.KeyGenerator != null) IsKeyGeneratorVisible = true;
+            else IsKeyGeneratorVisible = false;
+
+            _algorithmsList.ToList().ForEach(algorithm =>
+            {
+                if (algorithm.KeyGenerator != null)
+                {
+                    algorithm.KeyGenerator.ClearKey();
+                }
+            });
         }
 
 
@@ -331,13 +355,13 @@ namespace BSK1.ViewModels
             string[] stringPowers = _keyInput.Replace(" ", string.Empty).Split(",");
             int[] powers = Array.ConvertAll(stringPowers, s => int.TryParse(s, out var x) ? x : -1).OrderBy(x => x).ToArray();
 
-            string text = $"1 + x^";
+            string text = $"1 + x";
             for (int i = 0; i < powers.Length; i++)
             {
-                text += powers[i];
+                text += StringSubSupExtension.ToSuperscripts(powers[i].ToString());
 
                 if (i < powers.Length - 1)
-                    text += " + x^";
+                    text += " + x";
             }
 
             Polynominal = text;
