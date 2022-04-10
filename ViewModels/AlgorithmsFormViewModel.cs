@@ -403,7 +403,11 @@ namespace BSK1.ViewModels
 
         private void ClearGeneratedKeyWhenPolynominalChanged()
         {
-            if(_algorithmViewModel.KeyGenerator != null) _algorithmViewModel.KeyGenerator.ClearKey();
+            if(_algorithmViewModel.KeyGenerator != null)
+            {
+                _algorithmViewModel.KeyGenerator.ClearKey();
+                _errorsViewModel.ClearErrors(nameof(BinaryKey));
+            }
         }
     }
 }
