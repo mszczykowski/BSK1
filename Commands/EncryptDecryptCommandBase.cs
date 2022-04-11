@@ -127,7 +127,11 @@ namespace BSK1.Commands
         private void SetInputForBinary()
         {
             byte[] byteInput;
-            if (_viewModel.IsInputFile) byteInput = fileService.GetBinaryData(_viewModel.FilePath);
+            if (_viewModel.IsInputFile)
+            {
+                byteInput = fileService.GetBinaryData(_viewModel.FilePath);
+                input = ToBinary(byteInput);
+            }
             else
             {
                 if (Regex.IsMatch(_viewModel.InputText, "^[01]+$")) input = _viewModel.InputText;
@@ -137,6 +141,7 @@ namespace BSK1.Commands
                     input = ToBinary(byteInput);
                 }
             }
+            
         }
 
         public String ToBinary(Byte[] data)
