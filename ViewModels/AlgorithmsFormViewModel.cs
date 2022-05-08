@@ -238,6 +238,14 @@ namespace BSK1.ViewModels
             {
                 new AlgorithmViewModel
                 {
+                    Name = "DES",
+                    Algorithm = new DES(this),
+                    KeyErrorMessage = "Klucz musi być w postaci binarnej i mieć 64 bity",
+                    KeyName = "Klucz",
+                    AlgorithmType = AlgorithmType.Binary
+                },
+                new AlgorithmViewModel
+                {
                     Name = "Szyfr strumieniowy",
                     Algorithm = new StreamCipher(this),
                     KeyErrorMessage = "Potęgi muszą być w formacie: \"1, 2, 3, 4...\"",
