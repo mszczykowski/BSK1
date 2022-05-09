@@ -52,6 +52,7 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             return input;
         }
 
+        // Executes permutation on given string
         private string ExecutePermutation(string inputBits, int[] permutationArray)
         {
             string newString = "";
@@ -66,6 +67,7 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             return newString;
         }
 
+        // Splits input string into 2 equal halves
         private void SplitBitsString(string input, out string leftOutput, out string rightOutput)
         {
             int mid = input.Length / 2;
