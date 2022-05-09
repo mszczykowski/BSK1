@@ -26,9 +26,7 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             List<string> encryptedParts = new List<string>();
 
             foreach (string part in inputParts)
-            {
                 encryptedParts.Add(ExecuteAlgorithm(part)); // Execute DES algorithm on every part
-            }
 
             string result = string.Join("", encryptedParts.ToArray()); // Connect every encrypted part and return as a result
 
@@ -45,7 +43,12 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         // Methods
         private string ExecuteAlgorithm(string input)
         {
-            // TODO TUDU
+            string inputAfterInitial = ExecutePermutation(input, InitialPermutation);
+            string leftHalf;
+            string rightHalf;
+
+            SplitBitsString(inputAfterInitial, out leftHalf, out rightHalf);
+
             return input;
         }
 
@@ -59,6 +62,15 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
                 newString += inputBits[index];
             }
+
+            return newString;
+        }
+
+        private void SplitBitsString(string input, out string leftOutput, out string rightOutput)
+        {
+            int mid = input.Length / 2;
+            leftOutput = input.Substring(0, mid);
+            rightOutput = input.Substring(mid, mid);
         }
 
         private List<string> DivideInput(string input)
