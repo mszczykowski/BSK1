@@ -45,7 +45,20 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         // Methods
         private string ExecuteAlgorithm(string input)
         {
+            // TODO TUDU
             return input;
+        }
+
+        private string ExecutePermutation(string inputBits, int[] permutationArray)
+        {
+            string newString = "";
+            for (int i = 0; i < permutationArray.Length; i++)
+            {
+                int position = permutationArray[i];
+                int index = position - 1;
+
+                newString += inputBits[index];
+            }
         }
 
         private List<string> DivideInput(string input)
