@@ -25,8 +25,10 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             List<string> inputParts = DivideInput(input); // Divide input to 64 bit parts
             List<string> encryptedParts = new List<string>();
 
+            string[] keys = GenerateKeys(_viewModel.KeyInput);
+
             foreach (string part in inputParts)
-                encryptedParts.Add(ExecuteAlgorithm(part)); // Execute DES algorithm on every part
+                encryptedParts.Add(ExecuteAlgorithm(part, keys)); // Execute DES algorithm on every part
 
             string result = string.Join("", encryptedParts.ToArray()); // Connect every encrypted part and return as a result
 
@@ -41,7 +43,7 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         }
 
         // Methods
-        private string ExecuteAlgorithm(string input)
+        private string ExecuteAlgorithm(string input, string[] keys)
         {
             string inputAfterInitial = ExecutePermutation(input, InitialPermutation);
             string leftHalf;
@@ -49,7 +51,68 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
             SplitBitsString(inputAfterInitial, out leftHalf, out rightHalf);
 
+            for (int i = 0; i < 16; i++)
+            {
+                string calculationResult = CalculateRightHalfWithKey(rightHalf, keys[i]);
+                string xorResult = XORStrings(leftHalf, calculationResult);
+
+                leftHalf = rightHalf;
+                rightHalf = xorResult;
+            }
+
+            string temp = leftHalf;
+            leftHalf = rightHalf;
+            rightHalf = temp;
+
+            // to do inverted initial permutation
+
             return input;
+        }
+
+        private string[] GenerateKeys(string key)
+        {
+            /*
+             * TO DO
+             * Dla osoby od generowania klucza
+             * Metoda powinna zwracać tablice 16 kluczy o długości 48 bitów
+             * w parametrze jest 64 bitowy klucz
+             */
+
+            // temporary
+            string[] temp = new string[16];
+            for (int i = 0; i < 16; i++)
+            {
+                temp[i] = "011000111000110001100011100011000110001110001100"; //  random bits for tests
+            }
+
+            return temp;
+        }
+
+        private string CalculateRightHalfWithKey(string rightHalf, string key)
+        {
+            /* 
+             * TO DO
+             * Dla osoby, która będzie robić łączenie prawej połowy wejścia z kluczem
+             * na wejściu jest 32 bity prawej połowy i klucz 48 bitowy
+             * metoda powinna zwracać 32 bit wartość
+             */
+
+            // temporary
+            return rightHalf;
+        }
+
+        private string XORStrings(string leftHalf, string calcResult)
+        {
+            /* 
+             * TO DO
+             * Dla kogoś kto będzie xor robił
+             * oba wejścia 32 bit
+             * xorujemy jedno z drugim
+             * ma zwracać 32 bit
+             */
+
+            // temporary
+            return leftHalf;
         }
 
         // Executes permutation on given string
