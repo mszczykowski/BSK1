@@ -17,7 +17,22 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         public override string Decrypt(string input)
         {
-            throw new NotImplementedException();
+            List<string> inputParts = Split(input, 64).ToList(); // Divide input to 64 bit parts
+            List<string> decryptedParts = new List<string>();
+
+            string[] keys = GenerateKeys(_viewModel.KeyInput);
+            keys.Reverse();
+
+            foreach (string part in inputParts)
+                decryptedParts.Add(ExecuteAlgorithm(part, keys)); // Execute DES algorithm on every part
+
+            string result = "";
+
+            foreach (string part in decryptedParts)
+                result += RemoveMissingBytes(part);
+
+            return result;
+            //throw new NotImplementedException();
         }
 
         public override string Encrypt(string input)
@@ -64,9 +79,10 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             leftHalf = rightHalf;
             rightHalf = temp;
 
-            // to do inverted initial permutation
+            string inputAfterKeys = leftHalf + rightHalf;
+            string result = ExecutePermutation(inputAfterKeys, InitialPermutationInverted);
 
-            return input;
+            return result;
         }
 
         private string[] GenerateKeys(string key)
@@ -172,6 +188,16 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             input += Convert.ToString(bytesNumberToAdd, 2).PadLeft(8, '0');
 
             return input;
+        }
+
+        private string RemoveMissingBytes(string input)
+        {
+            string lastByte = input.Substring(input.Length - 8);
+            int numberOfMissingBytes = Convert.ToInt32(lastByte, 2) + 1;
+            int numberBitsToDelete = numberOfMissingBytes * 8;
+            string result = input.Remove(input.Length - numberBitsToDelete);
+
+            return result;
         }
 
         /* 
