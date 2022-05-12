@@ -1,5 +1,6 @@
 ﻿using BSK1.Algorithms;
 using BSK1.Algorithms.KeyGenerators;
+using BSK1.Algorithms.KeyRandomisers;
 using BSK1.Enums;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace BSK1.ViewModels
         public string KeyName { get; set; }
         public AlgorithmType AlgorithmType { get; set; }
         public IKeyGenerator KeyGenerator { get; set; }
+        public IKeyRandomiser KeyRandomiser { get; set; }
 
         public bool IsKeyValid(string key)
         {

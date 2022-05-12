@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -58,8 +58,20 @@
 
                     <TextBlock Grid.Row="2" Text="{Binding ParametersLabel}" VerticalAlignment="Center"/>
 
-                    <TextBox Grid.Column="1" Grid.Row="2" Width="300" HorizontalAlignment="Left" Grid.ColumnSpan="2"
-                             Text="{Binding KeyInput, UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Width="300">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox HorizontalAlignment="Stretch" Grid.Column="0"
+                             Text="{Binding KeyInput, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+                        <Button VerticalAlignment="Center" Grid.Column="1" Content="Losuj klucz"
+                                Visibility="{Binding IsKeyRandomiserVisible, Converter={StaticResource BoolToVis}}"
+                                Command="{Binding RandomiseKeyCommand}" Margin="10 0 0 0"/>
+                    </Grid>
+                    
+                    
 
                     <TextBlock Grid.Row="3" Text="Ziarno:" VerticalAlignment="Center" Visibility="{Binding IsKeyGeneratorVisible, Converter={StaticResource BoolToVis}}"/>
 

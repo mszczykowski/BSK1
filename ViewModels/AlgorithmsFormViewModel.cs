@@ -10,6 +10,7 @@ using System.Windows.Input;
 using BSK1.Algorithms;
 using BSK1.Algorithms.BinaryAlgorithms;
 using BSK1.Algorithms.KeyGenerators;
+using BSK1.Algorithms.KeyRandomisers;
 using BSK1.Algorithms.TextAlgorithms;
 using BSK1.Commands;
 using BSK1.Commands.KeyGeneratorCommands;
@@ -170,7 +171,19 @@ namespace BSK1.ViewModels
                 OnPropertyChanged(nameof(IsKeyGeneratorVisible));
             }
         }
-        
+
+        private bool _isKeyRandomiserVisible;
+        public bool IsKeyRandomiserVisible
+        {
+            get => _isKeyGeneratorVisible;
+            set
+            {
+                _isKeyGeneratorVisible = value;
+                OnPropertyChanged(nameof(IsKeyRandomiserVisible));
+            }
+        }
+
+
         private string _seed;
         public string Seed
         {
@@ -203,6 +216,7 @@ namespace BSK1.ViewModels
 
         public ICommand StopGeneratingKeyCommand { get; }
 
+        public ICommand RandomiseKeyCommand { get; }
 
         public AlgorithmsFormViewModel()
         {
@@ -210,7 +224,7 @@ namespace BSK1.ViewModels
 
             StopGeneratingKeyCommand = new StopGeneratingKeyCommand(this);
 
-
+            RandomiseKeyCommand = new RandomiseKeyCommand(this);
 
             ChooseFileCommand = new ChooseFileCommand(this);
 
@@ -242,7 +256,8 @@ namespace BSK1.ViewModels
                     Algorithm = new DES(this),
                     KeyErrorMessage = "Klucz musi być w postaci binarnej i mieć 64 bity",
                     KeyName = "Klucz",
-                    AlgorithmType = AlgorithmType.Binary
+                    AlgorithmType = AlgorithmType.Binary,
+                    KeyRandomiser = new DESKeyRandomiser()
                 },
                 new AlgorithmViewModel
                 {
@@ -331,6 +346,9 @@ namespace BSK1.ViewModels
 
             if (_algorithmViewModel.KeyGenerator != null) IsKeyGeneratorVisible = true;
             else IsKeyGeneratorVisible = false;
+
+            if (_algorithmViewModel.KeyRandomiser != null) IsKeyRandomiserVisible = true;
+            else IsKeyRandomiserVisible = false;
 
             _algorithmsList.ToList().ForEach(algorithm =>
             {
