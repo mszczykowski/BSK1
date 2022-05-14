@@ -112,6 +112,27 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             return stringToShift[shiftValue..] + stringToShift[..shiftValue];
         }
 
+        private int BinaryToDecimal(char[] binary)
+        {
+            int decimalNumber = 0;
+            for (int i = binary.Length - 1, j = 1; i >= 0; i--, j *= 2) 
+            {
+                decimalNumber += binary[i] == '1' ? j : 0;
+            }
+            return decimalNumber;
+        }
+
+        private string DecimalToBinary(int decimalNumber)
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; decimalNumber > 0; i++)
+            {
+                builder.Append(decimalNumber % 2);
+                decimalNumber /= 2;
+            }
+            return builder.ToString();
+        }
+
         private string CalculateRightHalfWithKey(string rightHalf, string key)
         {
             /* 
@@ -120,9 +141,53 @@ namespace BSK1.Algorithms.BinaryAlgorithms
              * na wejściu jest 32 bity prawej połowy i klucz 48 bitowy
              * metoda powinna zwracać 32 bit wartość
              */
+            StringBuilder builder = new StringBuilder(); // 110001
+            rightHalf = ExecutePermutation(rightHalf, ExtensionArray);
+            string keyAndRightXored = XORStrings(key, rightHalf);
+            
 
+            for (int i = 0; i < 8; i++) 
+            {
+                char[] row = { keyAndRightXored[i * 6], keyAndRightXored[(i * 6) + 5] };
+                char[] col = keyAndRightXored.Substring(i * 6 + 1, 4).ToCharArray();
+                string transformedInto4Bits;
+                int[] chosenPermutation;
+                switch (i)
+                {
+                    case 0:
+                        chosenPermutation = S1;
+                        break;
+                    case 1:
+                        chosenPermutation = S2;
+                        break;
+                    case 2:
+                        chosenPermutation = S3;
+                        break;
+                    case 3:
+                        chosenPermutation = S4;
+                        break;
+                    case 4:
+                        chosenPermutation = S5;
+                        break;
+                    case 5:
+                        chosenPermutation = S6;
+                        break;
+                    case 6:
+                        chosenPermutation = S7;
+                        break;
+                    case 7:
+                        chosenPermutation = S8;
+                        break;
+                    default:
+                        chosenPermutation = S1;
+                        break;
+                }
+                transformedInto4Bits = Convert.ToString(chosenPermutation[BinaryToDecimal(row) * BinaryToDecimal(col)], 2).PadLeft(4, '0');
+                builder.Append(transformedInto4Bits);
+            }
+            
             // temporary
-            return rightHalf;
+            return builder.ToString();
         }
 
         private string XORStrings(string leftHalf, string calcResult)
@@ -134,9 +199,19 @@ namespace BSK1.Algorithms.BinaryAlgorithms
              * xorujemy jedno z drugim
              * ma zwracać 32 bit
              */
+            if (leftHalf.Length != calcResult.Length)
+            {
+                throw new InvalidOperationException("Not equal");
+            }
+            char[] temp = leftHalf.ToCharArray();
 
-            // temporary
-            return leftHalf;
+            for (int i = 0; i < leftHalf.Length; i++) 
+            {
+                string xor = (leftHalf[i] ^ calcResult[i]).ToString();
+                temp[i] = xor[0];
+            }
+
+            return new string (temp);
         }
 
         // Executes permutation on given string
