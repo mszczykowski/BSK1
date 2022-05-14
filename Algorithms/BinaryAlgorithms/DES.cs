@@ -22,7 +22,7 @@ namespace BSK1.Algorithms.BinaryAlgorithms
             List<string> decryptedParts = new List<string>();
 
             string[] keys = CalculateKeys(_viewModel.KeyInput);
-            keys.Reverse();
+            keys = keys.Reverse().ToArray();
 
             foreach (string part in inputParts)
                 decryptedParts.Add(ExecuteAlgorithm(part, keys)); // Execute DES algorithm on every part
@@ -277,6 +277,9 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         {
             string lastByte = input.Substring(input.Length - 8);
             int numberOfMissingBytes = Convert.ToInt32(lastByte, 2) + 1;
+            if (numberOfMissingBytes > 6)
+                return input;
+
             int numberBitsToDelete = numberOfMissingBytes * 8;
             string result = input.Remove(input.Length - numberBitsToDelete);
 
