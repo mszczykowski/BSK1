@@ -135,12 +135,6 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         private string CalculateRightHalfWithKey(string rightHalf, string key)
         {
-            /* 
-             * TO DO
-             * Dla osoby, która będzie robić łączenie prawej połowy wejścia z kluczem
-             * na wejściu jest 32 bity prawej połowy i klucz 48 bitowy
-             * metoda powinna zwracać 32 bit wartość
-             */
             StringBuilder builder = new StringBuilder(); // 110001
             rightHalf = ExecutePermutation(rightHalf, ExtensionArray);
             string keyAndRightXored = XORStrings(key, rightHalf);
@@ -192,13 +186,6 @@ namespace BSK1.Algorithms.BinaryAlgorithms
 
         private string XORStrings(string leftHalf, string calcResult)
         {
-            /* 
-             * TO DO
-             * Dla kogoś kto będzie xor robił
-             * oba wejścia 32 bit
-             * xorujemy jedno z drugim
-             * ma zwracać 32 bit
-             */
             if (leftHalf.Length != calcResult.Length)
             {
                 throw new InvalidOperationException("Not equal");
@@ -277,10 +264,9 @@ namespace BSK1.Algorithms.BinaryAlgorithms
         {
             string lastByte = input.Substring(input.Length - 8);
             int numberOfMissingBytes = Convert.ToInt32(lastByte, 2) + 1;
-            if (numberOfMissingBytes > 6)
-                return input;
-
             int numberBitsToDelete = numberOfMissingBytes * 8;
+            if (numberOfMissingBytes > 6)
+                numberBitsToDelete = 8;
             string result = input.Remove(input.Length - numberBitsToDelete);
 
             return result;
